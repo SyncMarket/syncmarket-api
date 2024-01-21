@@ -2,7 +2,8 @@ version: '3'
 services:
     api:
         container_name: syncmarket-api
-        image: node:14
+        build: .
+        image: node:20.11.0
         working_dir: /usr/src/app
         restart: always
         command: bash -c "npm install && npm run dev"
@@ -10,7 +11,8 @@ services:
             - ./dist/:/usr/src/app/dist/
             - ./package.json:/usr/src/app/package.json
         ports:
-            - '5050:5050'
-            - '9222:9222'
+            - '3000:3000'
         links:
             - mongodb
+        env_file:
+            - .env
