@@ -1,4 +1,4 @@
-import { ProdcutImage } from '@/core/interfaces';
+import { ProductImage } from '@core/interfaces';
 import { ObjectId } from 'mongodb';
 
 export type ProductModel = {
@@ -10,7 +10,7 @@ export type ProductModel = {
     width: number;
     length: number;
     weight: number;
-    images: ProdcutImage[];
+    images: ProductImage[];
     warranty: {
         time: number;
         text: string;

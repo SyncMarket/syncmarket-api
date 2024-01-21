@@ -1,4 +1,4 @@
-import { ENV } from '@/core/config';
+import { ENV } from '@core/config';
 import { Collection, MongoClient, ServerApiVersion } from 'mongodb';
 
 class MongoConnection {

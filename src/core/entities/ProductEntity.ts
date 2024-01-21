@@ -1,4 +1,9 @@
-import { ProdcutImage, ProductDTO, ProductWarranty } from '@core/interfaces';
+import { ProductDTO, ProductImage } from '@core/interfaces';
+
+export type ProductWarrantyEntity = {
+    time: Date;
+    text: string;
+};
 
 export class ProductEntity {
     public readonly id: string;
@@ -10,8 +15,8 @@ export class ProductEntity {
     public readonly width: number;
     public readonly length: number;
     public readonly weight: number;
-    public readonly images: ProdcutImage[];
-    public readonly warranty: ProductWarranty;
+    public readonly images: ProductImage[];
+    public readonly warranty: ProductWarrantyEntity;
     public readonly sku: string;
     public readonly nbm: string;
     public readonly price: number;
@@ -26,6 +31,10 @@ export class ProductEntity {
     private constructor(props: ProductDTO) {
         Object.assign(this, props);
 
+        this.warranty = {
+            time: new Date(props.warranty.time),
+            text: props.warranty.text,
+        };
         this.isActive = true;
         this.isAvailable = true;
         this.isDeleted = false;

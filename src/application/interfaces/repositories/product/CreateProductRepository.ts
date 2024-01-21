@@ -1,4 +1,4 @@
-import { ProductEntity } from '@/core/entities';
+import { ProductEntity } from '@core/entities';
 
 export interface CreateProductRepository {
     create(

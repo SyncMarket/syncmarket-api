@@ -7,7 +7,7 @@ export interface ProductDTO {
     width: number;
     length: number;
     weight: number;
-    images: ProdcutImage[];
+    images: ProductImage[];
     warranty: ProductWarranty;
     sku: string;
     nbm: string;
@@ -15,13 +15,22 @@ export interface ProductDTO {
     stock: number;
 }
 
-export type ProdcutImage = {
+export type ProductImage = {
     url: string;
     alt: string;
     isMain: boolean;
 };
 
 export type ProductWarranty = {
-    time: Date;
+    time: number;
     text: string;
 };
+
+export interface Product extends ProductDTO {
+    isActive: boolean;
+    isAvailable: boolean;
+    isDeleted: boolean;
+    createdAt: number;
+    updatedAt: number | null;
+    deletedAt: number | null;
+}
