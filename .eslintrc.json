@@ -8,6 +8,7 @@
     "rules": {
         "prettier/prettier": ["error"],
         "quotes": ["error", "single"],
-        "semi": ["error", "always"]
+        "semi": ["error", "always"],
+        "@typescript-eslint/no-namespace": "off"
     }
 }
