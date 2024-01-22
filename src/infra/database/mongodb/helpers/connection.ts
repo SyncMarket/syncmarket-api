@@ -1,7 +1,7 @@
 import { ENV } from '@core/config';
 import { Collection, MongoClient, ServerApiVersion } from 'mongodb';
 
-class MongoConnection {
+export class MongoConnection {
     private client: MongoClient;
 
     constructor(url: string) {
@@ -20,21 +20,7 @@ class MongoConnection {
         });
     }
 
-    async connect(url: string): Promise<void> {
-        this.client = new MongoClient(url, {
-            serverApi: {
-                version: ServerApiVersion.v1,
-                strict: true,
-                deprecationErrors: true,
-            },
-            retryWrites: true,
-            retryReads: true,
-            readConcern: {
-                level: 'majority',
-            },
-            readPreference: 'secondaryPreferred',
-        });
-
+    async connect(): Promise<void> {
         await this.client.connect();
     }
 

@@ -22,7 +22,7 @@ export type ProductImage = {
 };
 
 export type ProductWarranty = {
-    time: number;
+    time: Date;
     text: string;
 };
 
@@ -30,7 +30,7 @@ export interface Product extends ProductDTO {
     isActive: boolean;
     isAvailable: boolean;
     isDeleted: boolean;
-    createdAt: number;
-    updatedAt: number | null;
-    deletedAt: number | null;
+    createdAt: Date;
+    updatedAt: Date | null;
+    deletedAt: Date | null;
 }

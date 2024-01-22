@@ -1,4 +1,4 @@
-import { ProductImage } from '@core/interfaces';
+import { ProductImage, ProductWarranty } from '@core/interfaces';
 import { ObjectId } from 'mongodb';
 
 export type ProductModel = {
@@ -11,10 +11,7 @@ export type ProductModel = {
     length: number;
     weight: number;
     images: ProductImage[];
-    warranty: {
-        time: number;
-        text: string;
-    };
+    warranty: ProductWarranty;
     sku: string;
     nbm: string;
     price: number;
@@ -22,7 +19,7 @@ export type ProductModel = {
     isActive: boolean;
     isAvailable: boolean;
     isDeleted: boolean;
-    createdAt: number;
-    updatedAt: number | null;
-    deletedAt: number | null;
+    createdAt: Date;
+    updatedAt: Date | null;
+    deletedAt: Date | null;
 };

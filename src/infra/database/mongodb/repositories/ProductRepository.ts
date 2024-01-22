@@ -11,7 +11,11 @@ export class ProductRepository implements CreateProductRepository {
     private readonly collection: Collection<ProductModel>;
 
     constructor() {
-        this.collection = mongoDB.getCollection<ProductModel>('product');
+        this.collection = ProductRepository.getCollection();
+    }
+
+    static getCollection(): Collection<ProductModel> {
+        return mongoDB.getCollection<ProductModel>('product');
     }
 
     async create(

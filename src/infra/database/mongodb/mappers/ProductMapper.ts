@@ -16,9 +16,9 @@ export class ProductMapper {
             campaignId: entity.campaignId.map((campaign) => ({
                 _id: stringToObjectId(campaign.id),
             })),
-            createdAt: entity.createdAt.getTime(),
-            deletedAt: entity.deletedAt?.getTime() ?? null,
-            updatedAt: entity.updatedAt?.getTime() ?? null,
+            createdAt: entity.createdAt,
+            deletedAt: entity.deletedAt ?? null,
+            updatedAt: entity.updatedAt ?? null,
             height: entity.height,
             images: entity.images,
             isActive: entity.isActive,
@@ -32,7 +32,7 @@ export class ProductMapper {
             stock: entity.stock,
             warranty: {
                 text: entity.warranty.text,
-                time: entity.warranty.time.getTime(),
+                time: entity.warranty.time,
             },
             weight: entity.weight,
             width: entity.width,
@@ -46,9 +46,9 @@ export class ProductMapper {
             campaignId: model.campaignId.map((campaign) => ({
                 id: objectIdToString(campaign._id),
             })),
-            createdAt: new Date(model.createdAt),
-            deletedAt: model.deletedAt ? new Date(model.deletedAt) : null,
-            updatedAt: model.updatedAt ? new Date(model.updatedAt) : null,
+            createdAt: model.createdAt,
+            deletedAt: model.deletedAt ?? null,
+            updatedAt: model.updatedAt ?? null,
             height: model.height,
             images: model.images,
             isActive: model.isActive,
@@ -62,7 +62,7 @@ export class ProductMapper {
             stock: model.stock,
             warranty: {
                 text: model.warranty.text,
-                time: new Date(model.warranty.time),
+                time: model.warranty.time,
             },
             weight: model.weight,
             width: model.width,

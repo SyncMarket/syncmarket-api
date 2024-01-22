@@ -6,8 +6,11 @@
     "license": "MIT",
     "scripts": {
         "start": "node dist/lib/index.js",
-        "build": "babel src --extensions \".js,.ts\" --out-dir dist/lib --copy-files --no-copy-ignored",
-        "postbuild": "tsc -p tsconfig.build.json --emitDeclarationOnly"
+        "build": "rimraf dist && tsc -p tsconfig-build.json",
+        "test": "jest --detectOpenHandles --passWithNoTests --runInBand",
+        "dev": "nodemon -L --watch ./dist ./dist/main/server.js",
+        "build:watch": "yarn build -- --watch",
+        "up": "concurrently --kill-others-on-fail \"yarn build:watch\" \"docker-compose up\""
     },
     "devDependencies": {
         "@babel/cli": "^7.23.4",
@@ -23,6 +26,7 @@
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.1.3",
         "jest": "^29.7.0",
+        "nodemon": "^3.0.3",
         "prettier": "^3.2.4",
         "ts-jest": "^29.1.1",
         "ts-node-dev": "^2.0.0",
@@ -30,6 +34,7 @@
         "typescript": "^5.3.3"
     },
     "dependencies": {
+        "dotenv": "^16.3.2",
         "mongodb": "^6.3.0",
         "zod": "^3.22.4"
     },
@@ -37,6 +42,7 @@
         "@application": "dist/application",
         "@infra": "dist/infra",
         "@main": "dist/main",
-        "@core": "dist/core"
+        "@core": "dist/core",
+        "@test": "dist/__test__"
     }
 }
