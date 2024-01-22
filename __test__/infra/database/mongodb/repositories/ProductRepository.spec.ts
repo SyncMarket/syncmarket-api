@@ -1,21 +1,21 @@
 import { ENV } from '@core/config';
-import { MongoConnection, ProductRepository } from '@infra/database/mongodb';
+import {
+    MongoConnection,
+    ProductRepository,
+    mongoDB,
+} from '@infra/database/mongodb';
 import { makeFakeProduct } from '@test/infra/database/mongodb';
 
 describe('productRepository', () => {
     const productCollection = ProductRepository.getCollection();
-    const mongoConnection = new MongoConnection(ENV.DATABASE_URL);
 
     beforeAll(async () => {
-        await mongoConnection.connect();
+        mongoDB.database = mongoDB.client.db('syncmarket_test');
+        await mongoDB.connect();
     });
 
     afterAll(async () => {
-        await mongoConnection.disconnect();
-    });
-
-    beforeEach(async () => {
-        await productCollection.deleteMany({});
+        await mongoDB.disconnect();
     });
 
     describe('createproduct', () => {
