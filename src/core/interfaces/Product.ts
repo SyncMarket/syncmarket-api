@@ -27,6 +27,7 @@ export type ProductWarranty = {
 };
 
 export interface Product extends ProductDTO {
+    id: string;
     isActive: boolean;
     isAvailable: boolean;
     isDeleted: boolean;

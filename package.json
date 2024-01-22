@@ -6,10 +6,10 @@
     "license": "MIT",
     "main": "dist/main/server.js",
     "scripts": {
-        "start": "node dist/main/server.js",
+        "start": "node src/main/server.ts",
         "build": "rimraf dist && tsc -p tsconfig-build.json",
         "build:watch": "yarn build -- --watch",
-        "dev": "nodemon -L --watch ./dist ./dist/main/server.js",
+        "dev": "nodemon -L --watch ./src ./src/main/server.ts -x 'yarn build && node dist/main/server.js'",
         "start:dev": "concurrently --kill-others-on-fail \"yarn build:watch\" \"yarn dev\"",
         "up": "concurrently --kill-others-on-fail \"yarn build:watch\" \"docker-compose up\"",
         "down": "docker-compose down",

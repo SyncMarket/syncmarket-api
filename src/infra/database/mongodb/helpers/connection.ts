@@ -3,8 +3,9 @@ import { Collection, MongoClient, ServerApiVersion } from 'mongodb';
 
 export class MongoConnection {
     private client: MongoClient;
+    private readonly database: string;
 
-    constructor(url: string) {
+    constructor(url: string, database?: string) {
         this.client = new MongoClient(url, {
             serverApi: {
                 version: ServerApiVersion.v1,
@@ -18,6 +19,8 @@ export class MongoConnection {
             },
             readPreference: 'secondaryPreferred',
         });
+
+        this.database = database ?? 'syncmarket';
     }
 
     async connect(): Promise<void> {
@@ -30,8 +33,12 @@ export class MongoConnection {
         this.client = undefined;
     }
 
+    private getDatabase(name: string) {
+        return 
+    }
+
     public getCollection<T>(name: string): Collection<T> {
-        const db = this.client.db();
+        const db = this.client.db(this.database);
 
         if (!db) {
             throw new Error('Database is not connected');

@@ -9,12 +9,14 @@ export abstract class BaseController {
         try {
             const error = this.validation?.validate(httpRequest.body);
 
-            if (error.isLeft()) {
-                return badRequest(error.value);
+            if (error) {
+                return badRequest(error);
             }
 
             return await this.execute(httpRequest);
         } catch (error) {
+            console.error(error);
+
             return serverError(error);
         }
     }
