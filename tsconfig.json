@@ -12,7 +12,7 @@
             "@core/*": ["src/core/*"],
             "@infra/*": ["src/infra/*"],
             "@main/*": ["src/main/*"],
-            "@test/*": ["test/*"],
+            "@test/*": ["__test__/*"],
             "@/*": ["src/*"],
         },
         "declarationDir": "./dist/@types",
@@ -26,6 +26,6 @@
     "include": [
         "src/**/*",
         "**/*.spec.ts",
-        "test/infra/database/mongodb/mocks/Product.ts",
+        "__test__/infra/database/mongodb/mocks/Product.ts",
     ],
 }
