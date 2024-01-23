@@ -1,1 +1,1 @@
-export * from './mocks';
+export * from '@test/infra/database/mongodb/mocks';

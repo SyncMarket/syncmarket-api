@@ -3,7 +3,7 @@ import {
     ProductRepository,
     mongoDB,
 } from '@infra/database/mongodb';
-import { makeFakeProduct } from '@test/infra/database/mongodb';
+import { makeFakeProductMongo } from '@test/infra/database/mongodb';
 import { Collection } from 'mongodb';
 
 describe('productRepository', () => {
@@ -29,7 +29,7 @@ describe('productRepository', () => {
         it('should create a new product and return an id on success', async () => {
             const productRepository = new ProductRepository();
 
-            const product = makeFakeProduct();
+            const product = makeFakeProductMongo();
 
             const response = await productRepository.create(product);
 

@@ -2,7 +2,7 @@ import { CreateProduct } from '@application/usecases';
 import {
     CreateProductRepositoryStub,
     makeFakeProduct,
-} from '@test/infra/database/mongodb';
+} from '@test/core/entities';
 import { SutTypes } from '@test/types';
 
 const makeSut = (): SutTypes<CreateProduct, CreateProductRepositoryStub> => {

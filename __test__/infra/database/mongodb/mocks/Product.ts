@@ -1,10 +1,9 @@
-import { CreateProductRepository } from '@application/interfaces';
 import { ProductEntity } from '@core/entities';
 import { ProductDTO } from '@core/interfaces';
 import { objectIdToString } from '@infra/database/mongodb';
 import { ObjectId } from 'mongodb';
 
-export const makeFakeProduct = (): ProductEntity => {
+export const makeFakeProductMongo = (): ProductEntity => {
     const productDTO: ProductDTO = {
         brandId: objectIdToString(new ObjectId()),
         name: objectIdToString(new ObjectId()),
@@ -37,14 +36,3 @@ export const makeFakeProduct = (): ProductEntity => {
 
     return new ProductEntity(productDTO, objectIdToString(new ObjectId()));
 };
-
-export class CreateProductRepositoryStub implements CreateProductRepository {
-    async create(
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        request: CreateProductRepository.Request,
-    ): Promise<ProductEntity> {
-        const product = makeFakeProduct();
-
-        return product;
-    }
-}
