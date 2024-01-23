@@ -1,1 +1,1 @@
-export * from './Product';
+export * from '@test/core/entities/Product';

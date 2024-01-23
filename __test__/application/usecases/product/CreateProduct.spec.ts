@@ -3,25 +3,32 @@ import {
     CreateProductRepositoryStub,
     makeFakeProduct,
 } from '@test/core/entities';
-import { SutTypes } from '@test/types';
 
-const makeSut = (): SutTypes<CreateProduct, CreateProductRepositoryStub> => {
-    const repository = new CreateProductRepositoryStub();
+type SutTypes = {
+    createProduct: CreateProduct;
+    createProductRepositoryStub: CreateProductRepositoryStub;
+};
 
-    const sut = new CreateProduct(repository);
+const makeSut = (): SutTypes => {
+    const createProductRepositoryStub = new CreateProductRepositoryStub();
 
-    return { sut, repository };
+    const createProduct = new CreateProduct(createProductRepositoryStub);
+
+    return {
+        createProduct,
+        createProductRepositoryStub: createProductRepositoryStub,
+    };
 };
 
 describe('CreatePost', () => {
     it('should call CreatePostRepository with correct data', async () => {
-        const { sut, repository } = makeSut();
+        const { createProduct, createProductRepositoryStub } = makeSut();
 
-        const createPostSpy = jest.spyOn(repository, 'create');
+        const createPostSpy = jest.spyOn(createProductRepositoryStub, 'create');
 
         const product = makeFakeProduct();
 
-        await sut.execute(product);
+        await createProduct.execute(product);
 
         expect(createPostSpy).toHaveBeenCalledWith(product);
     });

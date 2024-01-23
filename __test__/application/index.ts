@@ -1,2 +1,1 @@
-export * from './mocks';
-export * from './usecases';
+export * from '@test/application/mocks';
