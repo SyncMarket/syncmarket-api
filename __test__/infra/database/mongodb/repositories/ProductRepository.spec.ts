@@ -15,11 +15,14 @@ describe('productRepository', () => {
         productCollection = ProductRepository.getCollection();
 
         await mongoDB.connect();
-        await productCollection.deleteMany({});
     });
 
     afterAll(async () => {
         await mongoDB.disconnect();
+    });
+
+    beforeEach(async () => {
+        await productCollection.deleteMany({});
     });
 
     describe('createProduct', () => {

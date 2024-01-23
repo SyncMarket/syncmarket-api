@@ -23,7 +23,7 @@ export class ProductEntity {
     public readonly updatedAt: Date | null;
     public readonly deletedAt: Date | null;
 
-    constructor(props: ProductDTO) {
+    constructor(props: ProductDTO, id?: string) {
         Object.assign(this, props);
 
         this.warranty = {
@@ -36,5 +36,9 @@ export class ProductEntity {
         this.createdAt = new Date();
         this.updatedAt = null;
         this.deletedAt = null;
+
+        if (id) {
+            this.id = id;
+        }
     }
 }
