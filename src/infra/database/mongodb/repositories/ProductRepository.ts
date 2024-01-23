@@ -5,7 +5,7 @@ import {
     mongoDB,
     objectIdToString,
 } from '@infra/database/mongodb';
-import { CreateProductRepository } from '@application/interfaces/repositories';
+import { CreateProductRepository } from '@application/interfaces';
 
 export class ProductRepository implements CreateProductRepository {
     private readonly collection: Collection<ProductModel>;

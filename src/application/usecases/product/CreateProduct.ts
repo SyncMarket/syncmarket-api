@@ -1,5 +1,7 @@
-import { CreateProductRepository } from '@application/interfaces/repositories';
-import { CreateProductInterface } from '@application/interfaces/usecases';
+import {
+    CreateProductInterface,
+    CreateProductRepository,
+} from '@application/interfaces';
 import { ProductEntity } from '@core/entities';
 
 export class CreateProduct implements CreateProductInterface {

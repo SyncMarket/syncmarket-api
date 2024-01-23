@@ -1,4 +1,4 @@
-import { CreateProductRepository } from '@application/interfaces/repositories';
+import { CreateProductRepository } from '@application/interfaces';
 import { ProductEntity } from '@core/entities';
 import { ProductDTO } from '@core/interfaces';
 import { objectIdToString } from '@infra/database/mongodb';

@@ -1,7 +1,7 @@
 import { HttpRequest, HttpResponse } from '@infra/http/interfaces';
 import { BaseController } from '@infra/http/controllers';
-import { CreateProductInterface } from '@application/interfaces/usecases';
 import { ok } from '@infra/http/helpers';
+import { CreateProductInterface } from '@application/interfaces';
 
 export class CreateProductController extends BaseController {
     constructor(private readonly createProduct: CreateProductInterface) {

@@ -1,5 +1,5 @@
 import { Product, ProductDTO } from '@core/interfaces';
-import { Usecase } from '@application/interfaces/usecases';
+import { Usecase } from '@application/interfaces';
 
 export interface CreateProductInterface
     extends Usecase<
