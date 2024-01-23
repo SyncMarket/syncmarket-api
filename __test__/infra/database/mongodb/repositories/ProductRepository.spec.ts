@@ -1,24 +1,28 @@
-import { ENV } from '@core/config';
 import {
-    MongoConnection,
+    ProductModel,
     ProductRepository,
     mongoDB,
 } from '@infra/database/mongodb';
 import { makeFakeProduct } from '@test/infra/database/mongodb';
+import { Collection } from 'mongodb';
 
 describe('productRepository', () => {
-    const productCollection = ProductRepository.getCollection();
+    let productCollection: Collection<ProductModel>;
 
     beforeAll(async () => {
         mongoDB.database = mongoDB.client.db('syncmarket_test');
+
+        productCollection = ProductRepository.getCollection();
+
         await mongoDB.connect();
+        await productCollection.deleteMany({});
     });
 
     afterAll(async () => {
         await mongoDB.disconnect();
     });
 
-    describe('createproduct', () => {
+    describe('createProduct', () => {
         it('should create a new product and return an id on success', async () => {
             const productRepository = new ProductRepository();
 
