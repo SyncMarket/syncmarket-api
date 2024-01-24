@@ -23,6 +23,6 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
     },
-    "include": ["src", "__test__"],
+    "include": ["src", "__test__", "scripts"],
     "exclude": [],
 }

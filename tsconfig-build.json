@@ -3,5 +3,5 @@
     "compilerOptions": {
         "rootDir": "./src"
     },
-    "exclude": ["__test__"]
+    "exclude": ["__test__", "scripts"]
 }
