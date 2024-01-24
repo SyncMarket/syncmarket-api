@@ -10,6 +10,7 @@ import {
     GetProductBySkuRepository,
 } from '@application/interfaces';
 import { ProductRepository } from '@application/repositories';
+import { ProductEntity } from '@core/entities';
 
 export class ProductRepositoryMongoDb implements ProductRepository {
     private readonly collection: Collection<ProductModelMongoDb>;
@@ -36,6 +37,16 @@ export class ProductRepositoryMongoDb implements ProductRepository {
         sku: GetProductBySkuRepository.Request,
     ): Promise<GetProductBySkuRepository.Response> {
         const productModelMongoDb = await this.collection.findOne({ sku });
+
+        if (!productModelMongoDb) {
+            return null;
+        }
+
+        return ProductMapperMongoDb.toEntity(productModelMongoDb);
+    }
+
+    async getByNbm(nbm: string): Promise<ProductEntity> {
+        const productModelMongoDb = await this.collection.findOne({ nbm });
 
         if (!productModelMongoDb) {
             return null;

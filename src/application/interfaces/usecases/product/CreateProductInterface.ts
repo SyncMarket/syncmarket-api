@@ -1,7 +1,7 @@
 import { Product, ProductDTO } from '@core/interfaces';
 import { Usecase } from '@application/interfaces';
 import { Either } from '@core/either';
-import { SkuAlreadyExistsError } from '@core/errors';
+import { NbmAlreadyExistsError, SkuAlreadyExistsError } from '@core/errors';
 
 export interface CreateProductInterface
     extends Usecase<
@@ -15,6 +15,6 @@ export interface CreateProductInterface
 
 export namespace CreateProductInterface {
     export type Request = ProductDTO;
-    export type ResponseErrors = SkuAlreadyExistsError;
+    export type ResponseErrors = SkuAlreadyExistsError | NbmAlreadyExistsError;
     export type Response = Either<ResponseErrors, Product>;
 }

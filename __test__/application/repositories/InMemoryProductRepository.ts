@@ -29,4 +29,16 @@ export class InMemoryProductRepository implements ProductRepository {
 
         return productEntity;
     }
+
+    async getByNbm(
+        nbm: GetProductBySkuRepository.Request,
+    ): Promise<GetProductBySkuRepository.Response> {
+        const productEntity = this.items.find((item) => item.nbm === nbm);
+
+        if (!productEntity) {
+            return null;
+        }
+
+        return productEntity;
+    }
 }

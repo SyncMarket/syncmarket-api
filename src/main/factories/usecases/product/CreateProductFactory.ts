@@ -4,5 +4,9 @@ import { ProductRepositoryMongoDb } from '@infra/database/mongodb';
 export const makeCreateProduct = (): CreateProduct => {
     const productRepository = new ProductRepositoryMongoDb();
 
-    return new CreateProduct(productRepository, productRepository);
+    return new CreateProduct(
+        productRepository,
+        productRepository,
+        productRepository,
+    );
 };

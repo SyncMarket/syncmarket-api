@@ -29,7 +29,7 @@ export const makeFakeProduct = (): ProductEntity => {
         length: 10,
         width: 10,
         nbm: 'nbm',
-        sku: 'sku2',
+        sku: 'sku',
         warranty: {
             text: 'text',
             time: new Date(1706102450032),

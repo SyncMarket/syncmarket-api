@@ -54,4 +54,18 @@ describe('productRepository', () => {
             expect(product).toBeTruthy();
         });
     });
+
+    describe('getProductByNbm', () => {
+        it('should return a product on success', async () => {
+            const productRepository = new ProductRepositoryMongoDb();
+
+            const productEntity = makeFakeProductMongo();
+
+            await productRepository.create(productEntity);
+
+            const product = await productRepository.getByNbm(productEntity.nbm);
+
+            expect(product).toBeTruthy();
+        });
+    });
 });
