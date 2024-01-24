@@ -19,6 +19,7 @@
         "test:ci": "yarn test -- --coverage",
         "test:usecases": "ts-node ./scripts/test-usecases.ts",
         "test:database": "ts-node ./scripts/test-database.ts",
+        "test:http": "ts-node ./scripts/test-http.ts",
         "prepare": "husky install"
     },
     "devDependencies": {
