@@ -1,19 +1,7 @@
-import { execSync } from 'child_process';
+import { jestCommand } from './jestCommand';
 
 const args = process.argv.slice(2);
 
-let testDirectory = '__test__/infra/database';
+const testDirectory = '__test__/infra/database';
 
-const flagIndex = args.findIndex((arg) => arg.startsWith('--'));
-if (flagIndex !== -1) {
-    const flag = args[flagIndex].substring(2);
-    testDirectory += `/${flag}`;
-}
-
-const jestCommand = `jest ${testDirectory} --passWithNoTests --runInBand`;
-
-try {
-    execSync(jestCommand, { stdio: 'inherit' });
-} catch (error) {
-    process.exit(1);
-}
+jestCommand(args, testDirectory);
