@@ -11,9 +11,9 @@ export class GetProductByIdController extends BaseController {
     async execute(
         httpRequest: GetProductByIdController.Request,
     ): Promise<GetProductByIdController.Response> {
-        const productDTO = httpRequest.body;
+        const id = httpRequest.params.id;
 
-        const product = await this.getProductById.execute(productDTO);
+        const product = await this.getProductById.execute(id);
 
         return ok(product);
     }

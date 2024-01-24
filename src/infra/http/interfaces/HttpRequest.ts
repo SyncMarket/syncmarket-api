@@ -1,8 +1,4 @@
-export type HttpRequest<
-    TBody = unknown,
-    TParams = unknown,
-    THeaders = unknown,
-> = {
+export type HttpRequest<TBody = any, TParams = any, THeaders = any> = {
     body?: TBody;
     params?: TParams;
     headers?: THeaders;

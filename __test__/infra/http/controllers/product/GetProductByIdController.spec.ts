@@ -18,22 +18,20 @@ const makeSut = (): SutTypes => {
 };
 
 const makeFakeHttpRequest = (): HttpRequest => {
-    const product = makeFakeProduct();
+    const { id } = makeFakeProduct();
 
-    return { body: product };
+    return { params: { id } };
 };
 
 describe('GetProductByIdController', () => {
-    it('should call GetProductById with correct data', async () => {
+    it('should call GetPostById with correct params', async () => {
         const { getProductByIdController, getProductByIdStub } = makeSut();
-
-        const executeSpy = jest.spyOn(getProductByIdStub, 'execute');
-
+        const getPostByIdSpy = jest.spyOn(getProductByIdStub, 'execute');
         const httpRequest = makeFakeHttpRequest();
 
         await getProductByIdController.handle(httpRequest);
 
-        expect(executeSpy).toHaveBeenCalledWith(httpRequest.body);
+        expect(getPostByIdSpy).toHaveBeenCalledWith(httpRequest.params.id);
     });
 
     it('should return 200 on success', async () => {
