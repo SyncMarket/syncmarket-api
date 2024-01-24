@@ -1,1 +1,1 @@
-export * from './ProductMapper';
+export * from './ProductMapperMongoDb';

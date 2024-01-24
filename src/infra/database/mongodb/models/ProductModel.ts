@@ -1,7 +1,7 @@
 import { ProductImage, ProductWarranty } from '@core/interfaces';
 import { ObjectId } from 'mongodb';
 
-export type ProductModel = {
+export type ProductModelMongoDb = {
     categoryId: ObjectId;
     brandId: ObjectId;
     campaignId: { _id: ObjectId }[];

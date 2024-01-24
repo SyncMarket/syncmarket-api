@@ -1,8 +1,8 @@
 import { CreateProduct } from '@application/usecases';
-import { ProductRepository } from '@infra/database/mongodb';
+import { ProductRepositoryMongoDb } from '@infra/database/mongodb';
 
 export const makeCreateProduct = (): CreateProduct => {
-    const productRepository = new ProductRepository();
+    const productRepository = new ProductRepositoryMongoDb();
 
-    return new CreateProduct(productRepository);
+    return new CreateProduct(productRepository, productRepository);
 };

@@ -1,15 +1,15 @@
 import { ProductEntity } from '@core/entities';
 import {
-    ProductModel,
+    ProductModelMongoDb,
     objectIdToString,
     stringToObjectId,
 } from '@infra/database/mongodb';
 import { WithId } from 'mongodb';
 
-export class ProductMapper {
+export class ProductMapperMongoDb {
     static toModel(
         entity: ProductEntity | Omit<ProductEntity, 'id'>,
-    ): ProductModel {
+    ): ProductModelMongoDb {
         return {
             brandId: stringToObjectId(entity.brandId),
             categoryId: stringToObjectId(entity.categoryId),
@@ -39,7 +39,7 @@ export class ProductMapper {
         };
     }
 
-    static toEntity(model: WithId<ProductModel>): ProductEntity {
+    static toEntity(model: WithId<ProductModelMongoDb>): ProductEntity {
         return {
             brandId: objectIdToString(model.brandId),
             categoryId: objectIdToString(model.categoryId),

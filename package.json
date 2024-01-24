@@ -18,6 +18,7 @@
         "test:staged": "yarn test -- --findRelatedTests",
         "test:ci": "yarn test -- --coverage",
         "test:usecases": "ts-node ./scripts/test-usecases.ts",
+        "test:database": "ts-node ./scripts/test-database.ts",
         "prepare": "husky install"
     },
     "devDependencies": {
