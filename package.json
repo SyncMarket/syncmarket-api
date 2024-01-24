@@ -17,7 +17,7 @@
         "test": "jest --passWithNoTests --runInBand",
         "test:staged": "yarn test -- --findRelatedTests",
         "test:ci": "yarn test -- --coverage",
-        "test:usecases": "jest __test__/application/usecases --passWithNoTests --runInBand",
+        "test:usecases": "ts-node ./scripts/test-usecases.ts",
         "prepare": "husky install"
     },
     "devDependencies": {
