@@ -6,7 +6,9 @@ export interface CreateProductInterface
         CreateProductInterface.Request,
         CreateProductInterface.Response
     > {
-    execute(request: CreateProductInterface.Request): Promise<Product>;
+    execute(
+        request: CreateProductInterface.Request,
+    ): Promise<CreateProductInterface.Response>;
 }
 
 export namespace CreateProductInterface {

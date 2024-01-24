@@ -1,6 +1,9 @@
 import { ProductDTO } from '@core/interfaces';
 import { ProductEntity } from '@core/entities';
-import { CreateProductRepository } from '@application/interfaces';
+import {
+    CreateProductRepository,
+    GetProductByIdRepository,
+} from '@application/interfaces';
 
 export const makeFakeProduct = (): ProductEntity => {
     const productDTO: ProductDTO = {
@@ -36,11 +39,19 @@ export const makeFakeProduct = (): ProductEntity => {
     return new ProductEntity(productDTO, 'id');
 };
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export class CreateProductRepositoryStub implements CreateProductRepository {
     async create(
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         request: CreateProductRepository.Request,
     ): Promise<ProductEntity> {
+        const product = makeFakeProduct();
+
+        return product;
+    }
+}
+
+export class GetProductByIdRepositoryStub implements GetProductByIdRepository {
+    async getById(id: string): Promise<GetProductByIdRepository.Response> {
         const product = makeFakeProduct();
 
         return product;

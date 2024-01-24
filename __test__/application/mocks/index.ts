@@ -1,1 +1,1 @@
-export * from '@test/application/mocks/product';
+export * from '@test/application/mocks/Product';

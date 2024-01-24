@@ -16,7 +16,7 @@ const makeSut = (): SutTypes => {
 
     return {
         createProduct,
-        createProductRepositoryStub: createProductRepositoryStub,
+        createProductRepositoryStub,
     };
 };
 
