@@ -1,4 +1,5 @@
 import { CreateProduct } from '@application/usecases';
+import { SkuAlreadyExistsError } from '@core/errors';
 import {
     CreateProductRepositoryStub,
     makeFakeProduct,

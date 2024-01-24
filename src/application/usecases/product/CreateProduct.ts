@@ -2,6 +2,7 @@ import {
     CreateProductInterface,
     CreateProductRepository,
 } from '@application/interfaces';
+import { right } from '@core/either';
 import { ProductEntity } from '@core/entities';
 
 export class CreateProduct implements CreateProductInterface {
@@ -16,6 +17,6 @@ export class CreateProduct implements CreateProductInterface {
 
         const { id } = await this.createProductRepository.create(product);
 
-        return { ...product, id };
+        return right({ ...product, id });
     }
 }

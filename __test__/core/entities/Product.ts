@@ -3,6 +3,7 @@ import { ProductEntity } from '@core/entities';
 import {
     CreateProductRepository,
     GetProductByIdRepository,
+    GetProductBySkuRepository,
 } from '@application/interfaces';
 
 export const makeFakeProduct = (): ProductEntity => {
@@ -52,6 +53,16 @@ export class CreateProductRepositoryStub implements CreateProductRepository {
 
 export class GetProductByIdRepositoryStub implements GetProductByIdRepository {
     async getById(id: string): Promise<GetProductByIdRepository.Response> {
+        const product = makeFakeProduct();
+
+        return product;
+    }
+}
+
+export class GetProductBySkuRepositoryStub
+    implements GetProductBySkuRepository
+{
+    async getBySku(sku: string): Promise<GetProductBySkuRepository.Response> {
         const product = makeFakeProduct();
 
         return product;
