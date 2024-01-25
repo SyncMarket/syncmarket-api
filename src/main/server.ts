@@ -8,8 +8,6 @@ mongoDB
     .then(async () => {
         const app = setUpApp();
 
-        app.listen(ENV.PORT, () => {
-            console.log(`Server is running on port ${ENV.PORT}`);
-        });
+        app.listen(ENV.PORT);
     })
     .catch(console.error);

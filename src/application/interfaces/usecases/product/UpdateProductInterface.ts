@@ -18,8 +18,9 @@ export interface UpdateProductInterface
 }
 
 export namespace UpdateProductInterface {
-    export type Request = { updateDTO: Partial<ProductDTO>; id: string };
-    type ResponseErrors =
+    export type RequestDTO = Partial<ProductDTO>;
+    export type Request = { data: RequestDTO; id: string };
+    export type ResponseErrors =
         | ProductNotFoundError
         | SkuAlreadyExistsError
         | NbmAlreadyExistsError;

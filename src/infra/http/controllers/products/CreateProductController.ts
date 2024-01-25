@@ -11,9 +11,9 @@ export class CreateProductController extends BaseController {
     async execute(
         httpRequest: CreateProductController.Request,
     ): Promise<CreateProductController.Response> {
-        const productDTO = httpRequest.body;
+        const data = httpRequest.body;
 
-        const product = await this.createProduct.execute(productDTO);
+        const product = await this.createProduct.execute(data);
 
         return ok(product);
     }

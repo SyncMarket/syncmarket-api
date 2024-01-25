@@ -7,7 +7,7 @@ import {
 } from '@application/interfaces';
 
 export const makeFakeProduct = (): ProductEntity => {
-    const productDTO: ProductDTO = {
+    const data: ProductDTO = {
         brandId: 'brandId',
         name: 'name',
         price: 10,
@@ -37,7 +37,7 @@ export const makeFakeProduct = (): ProductEntity => {
         weight: 10,
     };
 
-    const productEntity = new ProductEntity(productDTO);
+    const productEntity = new ProductEntity(data);
 
     productEntity.isActive = true;
     productEntity.isAvailable = true;

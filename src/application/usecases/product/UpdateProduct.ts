@@ -32,31 +32,27 @@ export class UpdateProduct implements UpdateProductInterface {
             return left(new ProductNotFoundError(request.id));
         }
 
-        if (request.updateDTO.sku) {
+        if (request.data.sku) {
             const skuAlreadyExists =
-                await this.getProductBySkuRepository.getBySku(
-                    request.updateDTO.sku,
-                );
+                await this.getProductBySkuRepository.getBySku(request.data.sku);
 
             if (skuAlreadyExists) {
-                return left(new SkuAlreadyExistsError(request.updateDTO.sku));
+                return left(new SkuAlreadyExistsError(request.data.sku));
             }
         }
 
-        if (request.updateDTO.nbm) {
+        if (request.data.nbm) {
             const nbmAlreadyExists =
-                await this.getProductByNbmRepository.getByNbm(
-                    request.updateDTO.nbm,
-                );
+                await this.getProductByNbmRepository.getByNbm(request.data.nbm);
 
             if (nbmAlreadyExists) {
-                return left(new NbmAlreadyExistsError(request.updateDTO.nbm));
+                return left(new NbmAlreadyExistsError(request.data.nbm));
             }
         }
 
         const updateProductEntity: ProductEntity = {
             ...productEntity,
-            ...request.updateDTO,
+            ...request.data,
         };
 
         await this.updateProductRepository.update(updateProductEntity);

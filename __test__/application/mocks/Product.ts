@@ -2,6 +2,7 @@ import {
     CreateProductInterface,
     GetProductByIdInterface,
     GetProductBySkuInterface,
+    UpdateProductInterface,
 } from '@application/interfaces';
 import { right } from '@core/either';
 import { makeFakeProduct } from '@test/core/entities';
@@ -25,6 +26,14 @@ export class GetProductByIdStub implements GetProductByIdInterface {
 
 export class GetProductBySkuStub implements GetProductBySkuInterface {
     async execute(sku: string): Promise<GetProductBySkuInterface.Response> {
+        return right(makeFakeProduct());
+    }
+}
+
+export class UpdateProductStub implements UpdateProductInterface {
+    async execute(
+        request: UpdateProductInterface.Request,
+    ): Promise<UpdateProductInterface.Response> {
         return right(makeFakeProduct());
     }
 }

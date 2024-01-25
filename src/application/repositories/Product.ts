@@ -15,7 +15,7 @@ export abstract class ProductRepository
         GetProductByIdRepository
 {
     abstract create(
-        productDTO: CreateProductRepository.Request,
+        data: CreateProductRepository.Request,
     ): Promise<CreateProductRepository.Response>;
 
     abstract getBySku(

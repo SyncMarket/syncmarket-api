@@ -68,4 +68,37 @@ describe('productRepository', () => {
             expect(product).toBeTruthy();
         });
     });
+
+    describe('getProductById', () => {
+        it('should return a product on success', async () => {
+            const productRepository = new ProductRepositoryMongoDb();
+
+            const fakeProduct = makeFakeProductMongo();
+
+            const { id } = await productRepository.create(fakeProduct);
+
+            const productEntity = await productRepository.getById(id);
+
+            expect(productEntity).toBeTruthy();
+        });
+    });
+
+    describe('updateProduct', () => {
+        it('should update a product on success', async () => {
+            const productRepository = new ProductRepositoryMongoDb();
+
+            const fakeProduct = makeFakeProductMongo();
+
+            const productEntity = await productRepository.create(fakeProduct);
+
+            await productRepository.update({
+                ...productEntity,
+                name: 'Product Updated',
+            });
+
+            const { name } = await productRepository.getById(productEntity.id);
+
+            expect(name).toBe('Product Updated');
+        });
+    });
 });

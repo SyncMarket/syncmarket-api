@@ -2,7 +2,7 @@ import { ProductEntity } from '@core/entities';
 
 export interface CreateProductRepository {
     create(
-        request: CreateProductRepository.Request,
+        data: CreateProductRepository.Request,
     ): Promise<CreateProductRepository.Response>;
 }
 

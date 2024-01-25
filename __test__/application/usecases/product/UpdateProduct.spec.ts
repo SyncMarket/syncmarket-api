@@ -43,7 +43,7 @@ describe('UpdateProduct', () => {
 
         await updateProduct.execute({
             id: fakeProduct.id,
-            updateDTO: {
+            data: {
                 name: 'Product Updated',
             },
         });
@@ -63,7 +63,7 @@ describe('UpdateProduct', () => {
 
         const product = await updateProduct.execute({
             id: fakeProduct.id,
-            updateDTO: {
+            data: {
                 sku: fakeProduct.sku,
             },
         });
@@ -82,7 +82,7 @@ describe('UpdateProduct', () => {
 
         const product = await updateProduct.execute({
             id: fakeProduct.id,
-            updateDTO: {
+            data: {
                 nbm: fakeProduct.nbm,
             },
         });
@@ -97,7 +97,7 @@ describe('UpdateProduct', () => {
 
         const product = await updateProduct.execute({
             id: 'id-not-found',
-            updateDTO: {
+            data: {
                 name: 'Product Updated',
             },
         });
@@ -114,7 +114,7 @@ describe('UpdateProduct', () => {
 
         const product = await updateProduct.execute({
             id: fakeProduct.id,
-            updateDTO: {
+            data: {
                 name: 'Product Updated',
             },
         });

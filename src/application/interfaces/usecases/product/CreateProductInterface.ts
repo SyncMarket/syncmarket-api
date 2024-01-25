@@ -9,7 +9,7 @@ export interface CreateProductInterface
         CreateProductInterface.Response
     > {
     execute(
-        request: CreateProductInterface.Request,
+        data: CreateProductInterface.Request,
     ): Promise<CreateProductInterface.Response>;
 }
 

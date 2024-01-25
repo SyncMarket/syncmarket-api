@@ -27,13 +27,13 @@ export class ProductRepositoryMongoDb implements ProductRepository {
     }
 
     async create(
-        request: CreateProductRepository.Request,
+        data: CreateProductRepository.Request,
     ): Promise<CreateProductRepository.Response> {
         const { insertedId } = await this.collection.insertOne(
-            ProductMapperMongoDb.toModel(request),
+            ProductMapperMongoDb.toModel(data),
         );
 
-        return { ...request, id: objectIdToString(insertedId) };
+        return { ...data, id: objectIdToString(insertedId) };
     }
 
     async getBySku(

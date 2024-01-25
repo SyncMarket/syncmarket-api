@@ -4,7 +4,7 @@ import { objectIdToString } from '@infra/database/mongodb';
 import { ObjectId } from 'mongodb';
 
 export const makeFakeProductMongo = (): ProductEntity => {
-    const productDTO: ProductDTO = {
+    const data: ProductDTO = {
         brandId: objectIdToString(new ObjectId()),
         name: objectIdToString(new ObjectId()),
         price: 10,
@@ -34,7 +34,7 @@ export const makeFakeProductMongo = (): ProductEntity => {
         weight: 10,
     };
 
-    const productEntity = new ProductEntity(productDTO);
+    const productEntity = new ProductEntity(data);
 
     productEntity.isActive = true;
     productEntity.isAvailable = true;

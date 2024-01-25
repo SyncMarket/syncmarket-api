@@ -12,9 +12,9 @@ export class InMemoryProductRepository implements ProductRepository {
     items: ProductEntity[] = [];
 
     async create(
-        productDTO: CreateProductRepository.Request,
+        data: CreateProductRepository.Request,
     ): Promise<ProductEntity> {
-        const productEntity = new ProductEntity(productDTO);
+        const productEntity = new ProductEntity(data);
 
         this.items.push(productEntity);
 
