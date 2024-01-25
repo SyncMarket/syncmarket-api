@@ -1,10 +1,19 @@
 import {
     CreateProductInterface,
     GetProductByIdInterface,
+    GetProductByIdRepository,
+    GetProductByNbmRepository,
     GetProductBySkuInterface,
+    GetProductBySkuRepository,
     UpdateProductInterface,
+    UpdateProductRepository,
 } from '@application/interfaces';
-import { right } from '@core/either';
+import { left, right } from '@core/either';
+import {
+    NbmAlreadyExistsError,
+    ProductNotFoundError,
+    SkuAlreadyExistsError,
+} from '@core/errors';
 import { makeFakeProduct } from '@test/core/entities';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -31,9 +40,40 @@ export class GetProductBySkuStub implements GetProductBySkuInterface {
 }
 
 export class UpdateProductStub implements UpdateProductInterface {
+    constructor(
+        private readonly updateProductRepository: UpdateProductRepository,
+        private readonly getProductByIdRepository: GetProductByIdRepository,
+        private readonly getProductBySkuRepository: GetProductBySkuRepository,
+        private readonly getProductByNbmRepository: GetProductByNbmRepository,
+    ) {}
+
     async execute(
         request: UpdateProductInterface.Request,
     ): Promise<UpdateProductInterface.Response> {
+        const product = await this.getProductByIdRepository.getById(request.id);
+
+        if (!product) {
+            return left(new ProductNotFoundError(request.id));
+        }
+
+        if (request.data.sku) {
+            const skuAlreadyExists =
+                await this.getProductBySkuRepository.getBySku(request.data.sku);
+
+            if (skuAlreadyExists) {
+                return left(new SkuAlreadyExistsError(request.data.sku));
+            }
+        }
+
+        if (request.data.nbm) {
+            const nbmAlreadyExists =
+                await this.getProductByNbmRepository.getByNbm(request.data.nbm);
+
+            if (nbmAlreadyExists) {
+                return left(new NbmAlreadyExistsError(request.data.nbm));
+            }
+        }
+
         return right(makeFakeProduct());
     }
 }

@@ -1,8 +1,8 @@
 import { UpdateProductInterface } from '@application/interfaces';
 import { HttpRequest, HttpResponse } from '@infra/http/interfaces';
 import { BaseController } from '../BaseController';
-import { notFound, ok } from '@infra/http/helpers';
-import { ProductNotFoundError } from '@core/errors';
+import { conflict, notFound, ok } from '@infra/http/helpers';
+import { NbmAlreadyExistsError, SkuAlreadyExistsError } from '@core/errors';
 
 export class UpdateProductController extends BaseController {
     constructor(private readonly updateProduct: UpdateProductInterface) {
@@ -20,13 +20,18 @@ export class UpdateProductController extends BaseController {
             data,
         });
 
-        switch (product.value) {
-            case new ProductNotFoundError(id):
-                return notFound(product);
-
-            default:
-                return ok(product);
+        if (product.isLeft()) {
+            switch (true) {
+                case product.value instanceof SkuAlreadyExistsError:
+                    return conflict(product);
+                case product.value instanceof NbmAlreadyExistsError:
+                    return conflict(product);
+                default:
+                    return notFound(product);
+            }
         }
+
+        return ok(product);
     }
 }
 
