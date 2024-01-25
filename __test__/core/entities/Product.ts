@@ -32,12 +32,21 @@ export const makeFakeProduct = (): ProductEntity => {
         sku: 'sku',
         warranty: {
             text: 'text',
-            time: new Date(1706102450032),
+            time: new Date(0),
         },
         weight: 10,
     };
 
-    return new ProductEntity(productDTO, 'id');
+    const productEntity = new ProductEntity(productDTO);
+
+    productEntity.isActive = true;
+    productEntity.isAvailable = true;
+    productEntity.isDeleted = false;
+    productEntity.createdAt = new Date(0);
+    productEntity.updatedAt = null;
+    productEntity.deletedAt = null;
+
+    return { ...productEntity, id: 'id' };
 };
 
 /* eslint-disable @typescript-eslint/no-unused-vars */

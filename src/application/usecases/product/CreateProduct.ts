@@ -36,6 +36,13 @@ export class CreateProduct implements CreateProductInterface {
 
         const productEntity = new ProductEntity(request);
 
+        productEntity.isActive = true;
+        productEntity.isAvailable = true;
+        productEntity.isDeleted = false;
+        productEntity.createdAt = new Date();
+        productEntity.updatedAt = null;
+        productEntity.deletedAt = null;
+
         const { id } = await this.createProductRepository.create(productEntity);
 
         return right({ ...productEntity, id });

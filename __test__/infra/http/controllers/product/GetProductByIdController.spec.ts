@@ -24,14 +24,14 @@ const makeFakeHttpRequest = (): HttpRequest => {
 };
 
 describe('GetProductByIdController', () => {
-    it('should call GetPostById with correct params', async () => {
+    it('should call GetProductById with correct params', async () => {
         const { getProductByIdController, getProductByIdStub } = makeSut();
-        const getPostByIdSpy = jest.spyOn(getProductByIdStub, 'execute');
+        const getProductByIdSpy = jest.spyOn(getProductByIdStub, 'execute');
         const httpRequest = makeFakeHttpRequest();
 
         await getProductByIdController.handle(httpRequest);
 
-        expect(getPostByIdSpy).toHaveBeenCalledWith(httpRequest.params.id);
+        expect(getProductByIdSpy).toHaveBeenCalledWith(httpRequest.params.id);
     });
 
     it('should return 200 on success', async () => {

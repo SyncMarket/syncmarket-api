@@ -29,10 +29,19 @@ export const makeFakeProductMongo = (): ProductEntity => {
         sku: 'sku',
         warranty: {
             text: 'text',
-            time: new Date(),
+            time: new Date(0),
         },
         weight: 10,
     };
 
-    return new ProductEntity(productDTO, objectIdToString(new ObjectId()));
+    const productEntity = new ProductEntity(productDTO);
+
+    productEntity.isActive = true;
+    productEntity.isAvailable = true;
+    productEntity.isDeleted = false;
+    productEntity.createdAt = new Date(0);
+    productEntity.updatedAt = null;
+    productEntity.deletedAt = null;
+
+    return { ...productEntity, id: objectIdToString(new ObjectId()) };
 };

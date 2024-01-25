@@ -1,14 +1,18 @@
 import {
     CreateProductRepository,
+    GetProductByIdRepository,
     GetProductByNbmRepository,
     GetProductBySkuRepository,
+    UpdateProductRepository,
 } from '@application/interfaces';
 
 export abstract class ProductRepository
     implements
         CreateProductRepository,
         GetProductBySkuRepository,
-        GetProductByNbmRepository
+        GetProductByNbmRepository,
+        UpdateProductRepository,
+        GetProductByIdRepository
 {
     abstract create(
         productDTO: CreateProductRepository.Request,
@@ -21,4 +25,12 @@ export abstract class ProductRepository
     abstract getByNbm(
         nbm: GetProductByNbmRepository.Request,
     ): Promise<GetProductByNbmRepository.Response>;
+
+    abstract update(
+        request: UpdateProductRepository.Request,
+    ): Promise<UpdateProductRepository.Response>;
+
+    abstract getById(
+        id: GetProductByIdRepository.Request,
+    ): Promise<GetProductByIdRepository.Response>;
 }

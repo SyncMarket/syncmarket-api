@@ -7,6 +7,6 @@ export interface UpdateProductRepository {
 }
 
 export namespace UpdateProductRepository {
-    export type Request = Omit<ProductEntity, 'id'>;
-    export type Response = ProductEntity;
+    export type Request = ProductEntity;
+    export type Response = void;
 }

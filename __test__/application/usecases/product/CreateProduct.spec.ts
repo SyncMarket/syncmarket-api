@@ -23,17 +23,20 @@ const makeSut = (): SutTypes => {
     };
 };
 
-describe('CreatePost', () => {
-    it('should call CreatePostRepository with correct data', async () => {
+describe('CreateProduct', () => {
+    it('should call CreateProductRepository with correct data', async () => {
         const { createProduct, inMemoryProductRepository } = makeSut();
 
-        const createPostSpy = jest.spyOn(inMemoryProductRepository, 'create');
+        const createProductSpy = jest.spyOn(
+            inMemoryProductRepository,
+            'create',
+        );
 
         const fakeProduct = makeFakeProduct();
 
-        await createProduct.execute(fakeProduct);
+        const product = await createProduct.execute(fakeProduct);
 
-        expect(createPostSpy).toHaveBeenCalledWith(fakeProduct);
+        expect(createProductSpy).toHaveBeenCalledWith(product.value);
     });
 
     it('should return SkuAlreadyExistsError if sku already exists', async () => {
