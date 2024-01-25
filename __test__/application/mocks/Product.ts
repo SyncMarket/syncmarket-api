@@ -26,9 +26,19 @@ export class CreateProductStub implements CreateProductInterface {
 }
 
 export class GetProductByIdStub implements GetProductByIdInterface {
+    constructor(
+        private readonly getProductByIdRepository: GetProductByIdRepository,
+    ) {}
+
     async execute(
         id: GetProductByIdInterface.Request,
     ): Promise<GetProductByIdInterface.Response> {
+        const product = await this.getProductByIdRepository.getById(id);
+
+        if (!product) {
+            return left(new ProductNotFoundError(id));
+        }
+
         return right(makeFakeProduct());
     }
 }
@@ -73,6 +83,11 @@ export class UpdateProductStub implements UpdateProductInterface {
                 return left(new NbmAlreadyExistsError(request.data.nbm));
             }
         }
+
+        await this.updateProductRepository.update({
+            ...product,
+            name: 'new name',
+        });
 
         return right(makeFakeProduct());
     }

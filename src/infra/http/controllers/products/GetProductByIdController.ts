@@ -1,6 +1,6 @@
 import { GetProductByIdInterface } from '@application/interfaces';
 import { BaseController } from '@infra/http/controllers';
-import { ok } from '@infra/http/helpers';
+import { notFound, ok } from '@infra/http/helpers';
 import { HttpRequest, HttpResponse } from '@infra/http/interfaces';
 
 export class GetProductByIdController extends BaseController {
@@ -15,11 +15,15 @@ export class GetProductByIdController extends BaseController {
 
         const product = await this.getProductById.execute(id);
 
-        return ok(product);
+        if (product.isLeft()) {
+            return notFound(product.value);
+        }
+
+        return ok(product.value);
     }
 }
 
 export namespace GetProductByIdController {
     export type Request = HttpRequest<GetProductByIdInterface.Request>;
-    export type Response = HttpResponse<GetProductByIdInterface.Response>;
+    export type Response = HttpResponse<GetProductByIdInterface.ResponseData>;
 }

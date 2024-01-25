@@ -36,7 +36,9 @@ const makeSut = (): SutTypes => {
     const updateProductController = new UpdateProductController(
         updateProductStub,
     );
-    const getProductByIdStub = new GetProductByIdStub();
+    const getProductByIdStub = new GetProductByIdStub(
+        inMemoryProductRepository,
+    );
 
     return {
         updateProductController,

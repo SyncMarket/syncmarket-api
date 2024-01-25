@@ -15,5 +15,7 @@ export interface GetProductByIdInterface
 
 export namespace GetProductByIdInterface {
     export type Request = string;
-    export type Response = Either<ProductNotFoundError, Product>;
+    export type ResponseErrors = ProductNotFoundError;
+    export type ResponseData = Product;
+    export type Response = Either<ResponseErrors, ResponseData>;
 }
