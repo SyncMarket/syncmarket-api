@@ -3,6 +3,7 @@ import { HttpRequest, HttpResponse } from '@infra/http/interfaces';
 import { BaseController } from '../BaseController';
 import { conflict, notFound, ok } from '@infra/http/helpers';
 import { NbmAlreadyExistsError, SkuAlreadyExistsError } from '@core/errors';
+import { Product } from '@core/interfaces';
 
 export class UpdateProductController extends BaseController {
     constructor(private readonly updateProduct: UpdateProductInterface) {
@@ -23,19 +24,21 @@ export class UpdateProductController extends BaseController {
         if (product.isLeft()) {
             switch (true) {
                 case product.value instanceof SkuAlreadyExistsError:
-                    return conflict(product);
+                    return conflict(product.value);
                 case product.value instanceof NbmAlreadyExistsError:
-                    return conflict(product);
+                    return conflict(product.value);
                 default:
-                    return notFound(product);
+                    return notFound(product.value);
             }
         }
 
-        return ok(product);
+        return ok(product.value);
     }
 }
 
 export namespace UpdateProductController {
     export type Request = HttpRequest<UpdateProductInterface.RequestDTO>;
-    export type Response = HttpResponse<UpdateProductInterface.Response>;
+    export type Response = HttpResponse<
+        UpdateProductInterface.ResponseErrors | Product
+    >;
 }

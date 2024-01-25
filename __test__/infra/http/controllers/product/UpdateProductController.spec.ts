@@ -10,7 +10,6 @@ import {
 import { left } from '@core/either';
 import { conflict, notFound } from '@infra/http/helpers';
 import { InMemoryProductRepository } from '@test/application/repositories';
-import { Product } from '@core/interfaces';
 
 type SutTypes = {
     updateProductController: UpdateProductController;
@@ -20,15 +19,9 @@ type SutTypes = {
 };
 
 const error = {
-    notFound: left<ProductNotFoundError, Product>(
-        new ProductNotFoundError('invalid_id'),
-    ),
-    conflictSku: left<ProductNotFoundError, Product>(
-        new SkuAlreadyExistsError('sku'),
-    ),
-    conflictNbm: left<ProductNotFoundError, Product>(
-        new NbmAlreadyExistsError('nbm'),
-    ),
+    notFound: new ProductNotFoundError('invalid_id'),
+    conflictSku: new SkuAlreadyExistsError('sku'),
+    conflictNbm: new NbmAlreadyExistsError('nbm'),
 };
 
 const makeSut = (): SutTypes => {
@@ -77,8 +70,8 @@ describe('UpdateProductController', () => {
     it('should return 404 if UpdateProduct returns a ProductNotFoundError', async () => {
         const { updateProductController, getProductByIdStub } = makeSut();
 
-        jest.spyOn(getProductByIdStub, 'execute').mockImplementation(
-            async () => error.notFound,
+        jest.spyOn(getProductByIdStub, 'execute').mockImplementation(async () =>
+            left(error.notFound),
         );
 
         const httpRequest = makeFakeHttpRequest();
@@ -91,8 +84,8 @@ describe('UpdateProductController', () => {
     it('should return 409 if UpdateProduct returns a SkuAlreadyExistsError', async () => {
         const { updateProductController, updateProductStub } = makeSut();
 
-        jest.spyOn(updateProductStub, 'execute').mockImplementation(
-            async () => error.conflictSku,
+        jest.spyOn(updateProductStub, 'execute').mockImplementation(async () =>
+            left(error.conflictSku),
         );
 
         const httpRequest = makeFakeHttpRequest();
@@ -104,8 +97,8 @@ describe('UpdateProductController', () => {
     it('should return 409 if UpdateProduct returns a NbmAlreadyExistsError', async () => {
         const { updateProductController, updateProductStub } = makeSut();
 
-        jest.spyOn(updateProductStub, 'execute').mockImplementation(
-            async () => error.conflictNbm,
+        jest.spyOn(updateProductStub, 'execute').mockImplementation(async () =>
+            left(error.conflictNbm),
         );
 
         const httpRequest = makeFakeHttpRequest();
