@@ -4,13 +4,16 @@ import {
     ProductModelMongoDb,
     mongoDB,
     objectIdToString,
+    stringToObjectId,
 } from '@infra/database/mongodb';
 import {
     CreateProductRepository,
+    GetProductByIdRepository,
+    GetProductByNbmRepository,
     GetProductBySkuRepository,
+    UpdateProductRepository,
 } from '@application/interfaces';
 import { ProductRepository } from '@application/repositories';
-import { ProductEntity } from '@core/entities';
 
 export class ProductRepositoryMongoDb implements ProductRepository {
     private readonly collection: Collection<ProductModelMongoDb>;
@@ -45,7 +48,9 @@ export class ProductRepositoryMongoDb implements ProductRepository {
         return ProductMapperMongoDb.toEntity(productModelMongoDb);
     }
 
-    async getByNbm(nbm: string): Promise<ProductEntity> {
+    async getByNbm(
+        nbm: GetProductByNbmRepository.Request,
+    ): Promise<GetProductByNbmRepository.Response> {
         const productModelMongoDb = await this.collection.findOne({ nbm });
 
         if (!productModelMongoDb) {
@@ -53,5 +58,32 @@ export class ProductRepositoryMongoDb implements ProductRepository {
         }
 
         return ProductMapperMongoDb.toEntity(productModelMongoDb);
+    }
+
+    async getById(
+        id: GetProductByIdRepository.Request,
+    ): Promise<GetProductByIdRepository.Response> {
+        const productModelMongoDb = await this.collection.findOne({
+            _id: stringToObjectId(id),
+        });
+
+        if (!productModelMongoDb) {
+            return null;
+        }
+
+        return ProductMapperMongoDb.toEntity(productModelMongoDb);
+    }
+
+    async update(
+        request: UpdateProductRepository.Request,
+    ): Promise<UpdateProductRepository.Response> {
+        await this.collection.findOneAndUpdate(
+            {
+                _id: stringToObjectId(request.id),
+            },
+            {
+                $set: ProductMapperMongoDb.toModel(request),
+            },
+        );
     }
 }
