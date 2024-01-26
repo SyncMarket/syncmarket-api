@@ -11,6 +11,7 @@ import {
     GetProductByIdRepository,
     GetProductByNbmRepository,
     GetProductBySkuRepository,
+    GetProductRepository,
     UpdateProductRepository,
 } from '@application/interfaces';
 import { ProductRepository } from '@application/repositories';
@@ -85,5 +86,25 @@ export class ProductRepositoryMongoDb implements ProductRepository {
                 $set: ProductMapperMongoDb.toModel(request),
             },
         );
+    }
+
+    async get(
+        request: GetProductRepository.Request,
+    ): Promise<GetProductRepository.Response> {
+        const { page, pageSize, filter } = request;
+
+        const productModelGroup = await this.collection
+            .find(filter)
+            .skip(page)
+            .limit(pageSize)
+            .toArray();
+
+        const total = await this.collection.countDocuments(filter);
+
+        const data = productModelGroup.map((productModelMongoDb) =>
+            ProductMapperMongoDb.toEntity(productModelMongoDb),
+        );
+
+        return { data, total, elements: data.length };
     }
 }

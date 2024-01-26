@@ -3,6 +3,7 @@ import {
     GetProductByIdRepository,
     GetProductByNbmRepository,
     GetProductBySkuRepository,
+    GetProductRepository,
     UpdateProductRepository,
 } from '@application/interfaces';
 import { ProductRepository } from '@application/repositories';
@@ -65,5 +66,30 @@ export class InMemoryProductRepository implements ProductRepository {
         }
 
         return productEntity;
+    }
+
+    async get(
+        request: GetProductRepository.Request,
+    ): Promise<GetProductRepository.Response> {
+        const { page, pageSize, filter } = request;
+
+        let filteredItems = this.items;
+
+        if (filter) {
+            Object.keys(filter).forEach((key) => {
+                filteredItems = filteredItems.filter((item) =>
+                    String(item[key])
+                        .toLowerCase()
+                        .includes(filter[key].toLowerCase()),
+                );
+            });
+        }
+
+        const data = filteredItems.slice(
+            (page - 1) * pageSize,
+            page * pageSize,
+        );
+
+        return { data: data, total: this.items.length, elements: data.length };
     }
 }

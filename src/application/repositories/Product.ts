@@ -3,6 +3,7 @@ import {
     GetProductByIdRepository,
     GetProductByNbmRepository,
     GetProductBySkuRepository,
+    GetProductRepository,
     UpdateProductRepository,
 } from '@application/interfaces';
 
@@ -12,7 +13,8 @@ export abstract class ProductRepository
         GetProductBySkuRepository,
         GetProductByNbmRepository,
         UpdateProductRepository,
-        GetProductByIdRepository
+        GetProductByIdRepository,
+        GetProductRepository
 {
     abstract create(
         data: CreateProductRepository.Request,
@@ -33,4 +35,8 @@ export abstract class ProductRepository
     abstract getById(
         id: GetProductByIdRepository.Request,
     ): Promise<GetProductByIdRepository.Response>;
+
+    abstract get(
+        request: GetProductRepository.Request,
+    ): Promise<GetProductRepository.Response>;
 }
