@@ -2,6 +2,7 @@ import { expressRouteAdapter } from '@main/adapter';
 import {
     makeCreateProductController,
     makeGetProductByIdController,
+    makeGetProductController,
     makeUpdateProductController,
 } from '@main/factories/controllers';
 import { Router } from 'express';
@@ -16,4 +17,5 @@ export const productRoutes = (router: Router): void => {
         '/product/:id',
         expressRouteAdapter(makeGetProductByIdController()),
     );
+    router.get('/product', expressRouteAdapter(makeGetProductController()));
 };

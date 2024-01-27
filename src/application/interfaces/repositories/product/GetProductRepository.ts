@@ -1,5 +1,5 @@
 import { ProductEntity } from '@core/entities';
-import { GetRequest, GetResponse } from '@core/interfaces';
+import { GetRequest, GetResponseRepository } from '@core/interfaces';
 
 export interface GetProductRepository {
     get(
@@ -9,5 +9,5 @@ export interface GetProductRepository {
 
 export namespace GetProductRepository {
     export type Request = GetRequest;
-    export type Response = GetResponse<ProductEntity>;
+    export type Response = GetResponseRepository<ProductEntity>;
 }

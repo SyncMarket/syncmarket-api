@@ -91,20 +91,20 @@ export class ProductRepositoryMongoDb implements ProductRepository {
     async get(
         request: GetProductRepository.Request,
     ): Promise<GetProductRepository.Response> {
-        const { page, pageSize, filter } = request;
+        const { page, pageSize } = request;
 
         const productModelGroup = await this.collection
-            .find(filter)
+            .find()
             .skip(page)
             .limit(pageSize)
             .toArray();
 
-        const total = await this.collection.countDocuments(filter);
+        const total = await this.collection.countDocuments();
 
         const data = productModelGroup.map((productModelMongoDb) =>
             ProductMapperMongoDb.toEntity(productModelMongoDb),
         );
 
-        return { data, total, elements: data.length };
+        return { data, total };
     }
 }

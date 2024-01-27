@@ -5,6 +5,8 @@ import {
     GetProductByNbmRepository,
     GetProductBySkuInterface,
     GetProductBySkuRepository,
+    GetProductInterface,
+    GetProductRepository,
     UpdateProductInterface,
     UpdateProductRepository,
 } from '@application/interfaces';
@@ -90,5 +92,29 @@ export class UpdateProductStub implements UpdateProductInterface {
         });
 
         return right(makeFakeProduct());
+    }
+}
+
+export class GetProductStub implements GetProductInterface {
+    constructor(private readonly getProductRepository: GetProductRepository) {}
+
+    async execute(
+        request: GetProductInterface.Request,
+    ): Promise<GetProductInterface.Response> {
+        const { page, pageSize } = request;
+
+        const { data, total } = await this.getProductRepository.get({
+            page: (page - 1) * pageSize,
+            pageSize,
+        });
+
+        return {
+            data,
+            page: {
+                elements: data.length,
+                totalElements: total,
+                number: page,
+            },
+        };
     }
 }

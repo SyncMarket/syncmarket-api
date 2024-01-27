@@ -71,25 +71,10 @@ export class InMemoryProductRepository implements ProductRepository {
     async get(
         request: GetProductRepository.Request,
     ): Promise<GetProductRepository.Response> {
-        const { page, pageSize, filter } = request;
+        const { page, pageSize } = request;
 
-        let filteredItems = this.items;
+        const data = this.items.slice(page, pageSize);
 
-        if (filter) {
-            Object.keys(filter).forEach((key) => {
-                filteredItems = filteredItems.filter((item) =>
-                    String(item[key])
-                        .toLowerCase()
-                        .includes(filter[key].toLowerCase()),
-                );
-            });
-        }
-
-        const data = filteredItems.slice(
-            (page - 1) * pageSize,
-            page * pageSize,
-        );
-
-        return { data: data, total: this.items.length, elements: data.length };
+        return { data: data, total: this.items.length };
     }
 }

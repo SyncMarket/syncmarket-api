@@ -2,6 +2,7 @@ import {
     GetProductInterface,
     GetProductRepository,
 } from '@application/interfaces';
+import { GetRequest } from '@core/interfaces';
 
 export class GetProduct implements GetProductInterface {
     constructor(private readonly getProductRepository: GetProductRepository) {}
@@ -9,9 +10,22 @@ export class GetProduct implements GetProductInterface {
     async execute(
         request: GetProductInterface.Request,
     ): Promise<GetProductInterface.Response> {
-        const { data, total, elements } =
-            await this.getProductRepository.get(request);
+        const { page, pageSize } = request;
 
-        return { data: data, total, elements };
+        const getRequest: GetRequest = {
+            page: (page - 1) * pageSize,
+            pageSize,
+        };
+
+        const { data, total } = await this.getProductRepository.get(getRequest);
+
+        return {
+            data: data,
+            page: {
+                elements: data.length,
+                number: request.page,
+                totalElements: total,
+            },
+        };
     }
 }

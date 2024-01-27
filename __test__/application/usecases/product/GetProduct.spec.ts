@@ -32,7 +32,7 @@ describe('GetProduct', () => {
         });
 
         expect(getProductSpy).toHaveBeenCalledWith({
-            page: 1,
+            page: 0,
             pageSize: 10,
         });
     });
@@ -44,11 +44,11 @@ describe('GetProduct', () => {
         await inMemoryProductRepository.create(makeFakeProduct());
         await inMemoryProductRepository.create(makeFakeProduct());
 
-        const { elements } = await getProduct.execute({
+        const { page } = await getProduct.execute({
             page: 1,
             pageSize: 2,
         });
 
-        expect(elements).toBe(2);
+        expect(page.elements).toBe(2);
     });
 });
