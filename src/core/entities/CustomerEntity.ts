@@ -2,7 +2,7 @@ import { CustomerDTO } from '@core/interfaces';
 
 export class CustomerEntity {
     public readonly id: string;
-    public addresId: string;
+    public addressId: string;
     public cartId: string | null;
     public name: string;
     public email: string;
@@ -17,5 +17,11 @@ export class CustomerEntity {
 
     constructor(props: CustomerDTO) {
         Object.assign(this, props);
+
+        this.isActive = true;
+        this.isDeleted = false;
+        this.createdAt = new Date();
+        this.updatedAt = null;
+        this.deletedAt = null;
     }
 }

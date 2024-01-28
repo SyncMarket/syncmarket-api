@@ -1,0 +1,3 @@
+export class CreateCustomerStub {
+    constructor() {}
+}
