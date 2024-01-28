@@ -1,6 +1,7 @@
 export interface CustomerDTO {
     name: string;
     email: string;
+    password: string;
     document: string;
     birthDate: Date;
     phoneNumber: string;
@@ -8,7 +9,7 @@ export interface CustomerDTO {
     cartId: string | null;
 }
 
-export interface Customer extends CustomerDTO {
+export interface Customer extends Omit<CustomerDTO, 'password'> {
     id: string;
     isActive: boolean;
     isDeleted: boolean;

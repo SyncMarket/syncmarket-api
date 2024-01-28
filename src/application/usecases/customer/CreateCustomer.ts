@@ -3,6 +3,7 @@ import {
     CreateCustomerRepository,
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
+    SignUpInterface,
 } from '@application/interfaces';
 import { left, right } from '@core/either';
 import { CustomerEntity } from '@core/entities';
@@ -16,6 +17,7 @@ export class CreateCustomer implements CreateCustomerInterface {
         private readonly createCustomerRepository: CreateCustomerRepository,
         private readonly getCustomerByEmailRepository: GetCustomerByEmailRepository,
         private readonly getCustomerByDocumentRepository: GetCustomerByDocumentRepository,
+        private readonly signUpProvider: SignUpInterface,
     ) {}
 
     public async execute(
@@ -38,6 +40,11 @@ export class CreateCustomer implements CreateCustomerInterface {
         }
 
         const customerEntity = new CustomerEntity(request);
+
+        await this.signUpProvider.signUp({
+            email: request.email,
+            password: request.password,
+        });
 
         const { id } =
             await this.createCustomerRepository.create(customerEntity);

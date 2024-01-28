@@ -12,7 +12,7 @@ export class InMemoryCustomerRepository implements CustomerRepository {
     public async create(
         data: CreateCustomerRepository.Request,
     ): Promise<CreateCustomerRepository.Response> {
-        const customerEntity = new CustomerEntity(data);
+        const customerEntity = { ...data, id: 'id' };
 
         this.items.push(customerEntity);
 
