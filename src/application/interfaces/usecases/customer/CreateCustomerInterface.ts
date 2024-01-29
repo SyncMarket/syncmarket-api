@@ -21,5 +21,6 @@ export namespace CreateCustomerInterface {
     export type ResponseErrors =
         | EmailAlreadyExistsError
         | DocumentAlreadyExistsError;
+    export type ResponseData = Customer;
     export type Response = Either<ResponseErrors, Customer>;
 }
