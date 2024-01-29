@@ -21,7 +21,7 @@ export class CustomerEntity {
         this.name = props.name;
         this.email = props.email;
         this.document = props.document;
-        this.birthDate = props.birthDate;
+        this.birthDate = new Date(props.birthDate);
         this.phoneNumber = props.phoneNumber;
         this.isActive = true;
         this.isDeleted = false;
