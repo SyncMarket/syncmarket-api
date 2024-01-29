@@ -1,9 +1,9 @@
 import { Customer } from '@core/interfaces';
 
 export interface GetCustomerByIdRepository {
-    getById: (
+    getById(
         id: GetCustomerByIdRepository.Request,
-    ) => Promise<GetCustomerByIdRepository.Response>;
+    ): Promise<GetCustomerByIdRepository.Response>;
 }
 
 export namespace GetCustomerByIdRepository {
