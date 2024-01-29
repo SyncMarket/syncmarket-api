@@ -16,8 +16,13 @@ export class CustomerEntity {
     public deletedAt: Date | null;
 
     constructor(props: CustomerDTO) {
-        Object.assign(this, props);
-
+        this.addressId = props.addressId;
+        this.cartId = props.cartId;
+        this.name = props.name;
+        this.email = props.email;
+        this.document = props.document;
+        this.birthDate = props.birthDate;
+        this.phoneNumber = props.phoneNumber;
         this.isActive = true;
         this.isDeleted = false;
         this.createdAt = new Date();

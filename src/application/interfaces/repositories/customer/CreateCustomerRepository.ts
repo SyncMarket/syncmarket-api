@@ -2,7 +2,7 @@ import { CustomerEntity } from '@core/entities';
 
 export interface CreateCustomerRepository {
     create(
-        data: CreateCustomerRepository.Request,
+        entity: CreateCustomerRepository.Request,
     ): Promise<CreateCustomerRepository.Response>;
 }
 
