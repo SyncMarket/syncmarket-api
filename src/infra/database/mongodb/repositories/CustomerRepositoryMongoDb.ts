@@ -11,6 +11,7 @@ import {
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
     GetCustomerByIdRepository,
+    UpdateCustomerRepository,
 } from '@application/interfaces';
 
 export class CustomerRepositoryMongoDb implements CustomerRepository {
@@ -77,5 +78,20 @@ export class CustomerRepositoryMongoDb implements CustomerRepository {
         }
 
         return CustomerMapperMongoDb.toEntity(customerModel);
+    }
+
+    async update(
+        request: UpdateCustomerRepository.Request,
+    ): Promise<UpdateCustomerRepository.Response> {
+        const { data, id } = request;
+
+        await this.collection.updateOne(
+            {
+                _id: stringToObjectId(id),
+            },
+            {
+                $set: CustomerMapperMongoDb.toModel(data),
+            },
+        );
     }
 }

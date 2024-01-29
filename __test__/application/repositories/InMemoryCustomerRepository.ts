@@ -3,6 +3,7 @@ import {
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
     GetCustomerByIdRepository,
+    UpdateCustomerRepository,
 } from '@application/interfaces';
 import { CustomerRepository } from '@application/repositories';
 import { CustomerEntity } from '@core/entities';
@@ -40,5 +41,15 @@ export class InMemoryCustomerRepository implements CustomerRepository {
         id: GetCustomerByIdRepository.Request,
     ): Promise<GetCustomerByIdRepository.Response> {
         return this.items.find((item) => item.id === id) ?? null;
+    }
+
+    async update(
+        request: UpdateCustomerRepository.Request,
+    ): Promise<UpdateCustomerRepository.Response> {
+        const { data, id } = request;
+
+        const productIndex = this.items.findIndex((item) => item.id === id);
+
+        this.items[productIndex] = data;
     }
 }

@@ -7,6 +7,6 @@ export interface UpdateCustomerRepository {
 }
 
 export namespace UpdateCustomerRepository {
-    export type Request = { id: string; updateDTO: CustomerEntity };
-    export type Response = CustomerEntity;
+    export type Request = { id: string; data: CustomerEntity };
+    export type Response = void;
 }

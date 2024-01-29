@@ -1,6 +1,11 @@
 import { Either } from '@core/either';
 import { Customer, CustomerDTO } from '@core/interfaces';
 import { Usecase } from '@application/interfaces';
+import {
+    CustomerNotFoundError,
+    DocumentAlreadyExistsError,
+    EmailAlreadyExistsError,
+} from '@core/errors';
 
 export interface UpdateCustomerInterface
     extends Usecase<
@@ -13,8 +18,11 @@ export interface UpdateCustomerInterface
 }
 
 export namespace UpdateCustomerInterface {
-    export type Request = { id: string; updateDTO: Partial<CustomerDTO> };
-    export type ResponseErrors = Error;
+    export type Request = { id: string; data: Partial<CustomerDTO> };
+    export type ResponseErrors =
+        | CustomerNotFoundError
+        | EmailAlreadyExistsError
+        | DocumentAlreadyExistsError;
     export type ResponseData = Customer;
     export type Response = Either<ResponseErrors, ResponseData>;
 }

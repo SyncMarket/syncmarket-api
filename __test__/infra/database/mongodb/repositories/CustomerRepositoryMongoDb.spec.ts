@@ -87,4 +87,29 @@ describe('CustomerRepositoryMongoDb', () => {
             expect(customer).toEqual({ ...customerEntity, id });
         });
     });
+
+    describe('updateCustomer', () => {
+        it('should update a customer and return success', async () => {
+            const customerRepository = new CustomerRepositoryMongoDb();
+
+            const customerEntity = makeFakeCustomerMongo();
+
+            const { id } = await customerRepository.create(customerEntity);
+
+            const updateRequest = {
+                ...customerEntity,
+                name: 'new name',
+                id,
+            };
+
+            await customerRepository.update({
+                id,
+                data: updateRequest,
+            });
+
+            const customerUpdated = await customerRepository.getById(id);
+
+            expect(customerUpdated).toEqual(updateRequest);
+        });
+    });
 });
