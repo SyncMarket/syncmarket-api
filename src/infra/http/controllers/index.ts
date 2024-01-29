@@ -1,2 +1,2 @@
 export * from './BaseController';
-export * from './products';
+export * from './product';
