@@ -2,13 +2,15 @@ import {
     CreateCustomerRepository,
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
+    GetCustomerByIdRepository,
 } from '@application/interfaces';
 
 export abstract class CustomerRepository
     implements
         CreateCustomerRepository,
         GetCustomerByEmailRepository,
-        GetCustomerByDocumentRepository
+        GetCustomerByDocumentRepository,
+        GetCustomerByIdRepository
 {
     abstract create(
         data: CreateCustomerRepository.Request,
@@ -21,4 +23,8 @@ export abstract class CustomerRepository
     abstract getByDocument(
         document: GetCustomerByDocumentRepository.Request,
     ): Promise<GetCustomerByDocumentRepository.Response>;
+
+    abstract getById(
+        id: GetCustomerByIdRepository.Request,
+    ): Promise<GetCustomerByIdRepository.Response>;
 }

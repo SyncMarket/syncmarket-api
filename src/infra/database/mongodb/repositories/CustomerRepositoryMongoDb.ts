@@ -4,11 +4,13 @@ import {
     CustomerMapperMongoDb,
     CustomerModelMongoDb,
     mongoDB,
+    stringToObjectId,
 } from '@infra/database/mongodb';
 import {
     CreateCustomerRepository,
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
+    GetCustomerByIdRepository,
 } from '@application/interfaces';
 
 export class CustomerRepositoryMongoDb implements CustomerRepository {
@@ -54,6 +56,20 @@ export class CustomerRepositoryMongoDb implements CustomerRepository {
     ): Promise<GetCustomerByEmailRepository.Response> {
         const customerModel = await this.collection.findOne({
             email,
+        });
+
+        if (!customerModel) {
+            return null;
+        }
+
+        return CustomerMapperMongoDb.toEntity(customerModel);
+    }
+
+    public async getById(
+        id: GetCustomerByIdRepository.Request,
+    ): Promise<GetCustomerByIdRepository.Response> {
+        const customerModel = await this.collection.findOne({
+            _id: stringToObjectId(id),
         });
 
         if (!customerModel) {

@@ -1,4 +1,9 @@
-import { CreateCustomerRepository } from '@application/interfaces';
+import {
+    CreateCustomerRepository,
+    GetCustomerByDocumentRepository,
+    GetCustomerByEmailRepository,
+    GetCustomerByIdRepository,
+} from '@application/interfaces';
 import { CustomerRepository } from '@application/repositories';
 import { CustomerEntity } from '@core/entities';
 
@@ -20,14 +25,20 @@ export class InMemoryCustomerRepository implements CustomerRepository {
     }
 
     public async getByEmail(
-        email: string,
-    ): Promise<CreateCustomerRepository.Response> {
+        email: GetCustomerByEmailRepository.Request,
+    ): Promise<GetCustomerByEmailRepository.Response> {
         return this.items.find((item) => item.email === email) ?? null;
     }
 
     public async getByDocument(
-        document: string,
-    ): Promise<CreateCustomerRepository.Response> {
+        document: GetCustomerByDocumentRepository.Request,
+    ): Promise<GetCustomerByDocumentRepository.Response> {
         return this.items.find((item) => item.document === document) ?? null;
+    }
+
+    public async getById(
+        id: GetCustomerByIdRepository.Request,
+    ): Promise<GetCustomerByIdRepository.Response> {
+        return this.items.find((item) => item.id === id) ?? null;
     }
 }
