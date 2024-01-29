@@ -58,6 +58,7 @@ describe('CreateCustomer', () => {
 
         const customer = await createCustomer.execute(fakeCustomerDTO);
 
+        expect(customer.isLeft).toBeTruthy();
         expect(customer.value).toEqual(
             new EmailAlreadyExistsError(fakeCustomerDTO.email),
         );
@@ -74,6 +75,7 @@ describe('CreateCustomer', () => {
 
         const customer = await createCustomer.execute(fakeCustomerDTO);
 
+        expect(customer.isLeft).toBeTruthy();
         expect(customer.value).toEqual(
             new DocumentAlreadyExistsError(fakeCustomerDTO.document),
         );
@@ -86,7 +88,12 @@ describe('CreateCustomer', () => {
         const fakeCustomerEntity = makeFakeCustomerEntity();
 
         const customer = await createCustomer.execute(fakeCustomerDTO);
+        expect(customer.isRight()).toBeTruthy();
 
-        expect(customer.value).toEqual({ ...fakeCustomerEntity, id: 'id' });
+        fakeCustomerEntity.createdAt = new Date(0);
+        const customerEntity = { ...fakeCustomerEntity, id: 'id' };
+        const customerExpect = { ...customer.value, createdAt: new Date(0) };
+
+        expect(customerExpect).toEqual(customerEntity);
     });
 });
