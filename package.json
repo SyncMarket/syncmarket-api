@@ -18,7 +18,7 @@
         "test:staged": "yarn test -- --findRelatedTests",
         "test:ci": "yarn test -- --coverage",
         "test:usecases": "ts-node ./scripts/test-usecases.ts",
-        "test:database": "ts-node ./scripts/test-database.ts",
+        "test:mongodb": "ts-node ./scripts/test-mongodb.ts",
         "test:controllers": "ts-node ./scripts/test-controllers.ts",
         "prepare": "husky install"
     },
