@@ -15,5 +15,7 @@ export interface GetCustomerByIdInterface
 
 export namespace GetCustomerByIdInterface {
     export type Request = string;
-    export type Response = Either<CustomerNotFoundError, Customer>;
+    export type ResponseErrors = CustomerNotFoundError;
+    export type ResponseData = Customer;
+    export type Response = Either<ResponseErrors, ResponseData>;
 }
