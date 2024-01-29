@@ -18,7 +18,8 @@ export interface UpdateCustomerInterface
 }
 
 export namespace UpdateCustomerInterface {
-    export type Request = { id: string; data: Partial<CustomerDTO> };
+    export type RequestData = Partial<CustomerDTO>;
+    export type Request = { id: string; data: RequestData };
     export type ResponseErrors =
         | CustomerNotFoundError
         | EmailAlreadyExistsError
