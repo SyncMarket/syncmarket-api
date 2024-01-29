@@ -72,4 +72,19 @@ describe('CustomerRepositoryMongoDb', () => {
             expect(customer).toEqual({ ...customerEntity, id });
         });
     });
+
+    describe('getCustomerById', () => {
+        it('should return a customer on success', async () => {
+            const customerRepository = new CustomerRepositoryMongoDb();
+
+            const customerEntity = makeFakeCustomerMongo();
+
+            const { id } = await customerRepository.create(customerEntity);
+
+            const customer = await customerRepository.getById(id);
+
+            expect(customer).toBeTruthy();
+            expect(customer).toEqual({ ...customerEntity, id });
+        });
+    });
 });
