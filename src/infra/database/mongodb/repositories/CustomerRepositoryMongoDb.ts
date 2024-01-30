@@ -8,9 +8,11 @@ import {
 } from '@infra/database/mongodb';
 import {
     CreateCustomerRepository,
+    DeleteCustomerRepository,
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
     GetCustomerByIdRepository,
+    GetCustomersRepository,
     UpdateCustomerRepository,
 } from '@application/interfaces';
 
@@ -93,5 +95,48 @@ export class CustomerRepositoryMongoDb implements CustomerRepository {
                 $set: CustomerMapperMongoDb.toModel(data),
             },
         );
+    }
+
+    async delete(
+        id: DeleteCustomerRepository.Request,
+    ): Promise<DeleteCustomerRepository.Response> {
+        await this.collection.updateOne(
+            {
+                _id: stringToObjectId(id),
+            },
+            {
+                $set: {
+                    isDeleted: true,
+                    deletedAt: new Date(),
+                },
+            },
+        );
+    }
+
+    public async get(
+        request: GetCustomersRepository.Request,
+    ): Promise<GetCustomersRepository.Response> {
+        const { page, pageSize } = request;
+
+        const customerModelGroup = await this.collection
+            .find()
+            .skip(page)
+            .limit(pageSize)
+            .toArray();
+
+        const total = await this.collection.countDocuments();
+
+        const data = customerModelGroup.map((customerModel) =>
+            CustomerMapperMongoDb.toEntity(customerModel),
+        );
+
+        return {
+            data: data,
+            page: {
+                number: page,
+                elements: data.length,
+                totalElements: total,
+            },
+        };
     }
 }

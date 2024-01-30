@@ -1,3 +1,4 @@
 export * from './CreateCustomerFactory';
 export * from './GetCustomerByIdFactory';
-export * from './UpdateCustmerFactory';
+export * from './UpdateCustomerFactory';
+export * from './DeleteCustomerFactory';

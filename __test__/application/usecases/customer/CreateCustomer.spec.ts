@@ -44,7 +44,13 @@ describe('CreateCustomer', () => {
         const fakeCustomerDTO = makeFakeCustomerDTO();
         const fakeCustomerEntity = makeFakeCustomerEntity();
 
-        await createCustomer.execute(fakeCustomerDTO);
+        const customerEntity = await createCustomer.execute(fakeCustomerDTO);
+
+        expect(customerEntity.isRight()).toBeTruthy();
+
+        if (customerEntity.isRight()) {
+            fakeCustomerEntity.createdAt = customerEntity.value.createdAt;
+        }
 
         expect(createCustomerSpy).toHaveBeenCalledWith(fakeCustomerEntity);
     });

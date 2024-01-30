@@ -1,12 +1,15 @@
 import {
     CreateCustomerRepository,
+    DeleteCustomerRepository,
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
     GetCustomerByIdRepository,
+    GetCustomersRepository,
     UpdateCustomerRepository,
 } from '@application/interfaces';
 import { CustomerRepository } from '@application/repositories';
 import { CustomerEntity } from '@core/entities';
+import { Utils } from '@core/utils';
 
 export class InMemoryCustomerRepository implements CustomerRepository {
     public items: CustomerEntity[];
@@ -21,6 +24,7 @@ export class InMemoryCustomerRepository implements CustomerRepository {
         const customerEntity = { ...data, id: 'id' };
 
         this.items.push(customerEntity);
+        this.items = Utils.sortByProperty(this.items, 'createdAt');
 
         return customerEntity;
     }
@@ -28,19 +32,31 @@ export class InMemoryCustomerRepository implements CustomerRepository {
     public async getByEmail(
         email: GetCustomerByEmailRepository.Request,
     ): Promise<GetCustomerByEmailRepository.Response> {
-        return this.items.find((item) => item.email === email) ?? null;
+        return Utils.searchByProperty({
+            items: this.items,
+            property: 'email',
+            target: email,
+        });
     }
 
     public async getByDocument(
         document: GetCustomerByDocumentRepository.Request,
     ): Promise<GetCustomerByDocumentRepository.Response> {
-        return this.items.find((item) => item.document === document) ?? null;
+        return Utils.searchByProperty({
+            items: this.items,
+            property: 'document',
+            target: document,
+        });
     }
 
     public async getById(
         id: GetCustomerByIdRepository.Request,
     ): Promise<GetCustomerByIdRepository.Response> {
-        return this.items.find((item) => item.id === id) ?? null;
+        return Utils.searchByProperty({
+            items: this.items,
+            property: 'id',
+            target: id,
+        });
     }
 
     async update(
@@ -51,5 +67,35 @@ export class InMemoryCustomerRepository implements CustomerRepository {
         const productIndex = this.items.findIndex((item) => item.id === id);
 
         this.items[productIndex] = data;
+    }
+
+    public async delete(
+        id: DeleteCustomerRepository.Request,
+    ): Promise<DeleteCustomerRepository.Response> {
+        const customer = Utils.searchByProperty({
+            items: this.items,
+            property: 'id',
+            target: id,
+        });
+
+        customer.deletedAt = new Date();
+        customer.isDeleted = true;
+    }
+
+    public async get(
+        request: GetCustomersRepository.Request,
+    ): Promise<GetCustomersRepository.Response> {
+        const { page, pageSize } = request;
+
+        const data = this.items.slice(page, pageSize);
+
+        return {
+            data: data,
+            page: {
+                elements: data.length,
+                number: page,
+                totalElements: this.items.length,
+            },
+        };
     }
 }
