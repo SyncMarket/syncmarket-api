@@ -1,5 +1,6 @@
 import {
     CreateCustomerRepository,
+    DeleteCustomerRepository,
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
     GetCustomerByIdRepository,
@@ -65,5 +66,18 @@ export class InMemoryCustomerRepository implements CustomerRepository {
         const productIndex = this.items.findIndex((item) => item.id === id);
 
         this.items[productIndex] = data;
+    }
+
+    public async delete(
+        id: DeleteCustomerRepository.Request,
+    ): Promise<DeleteCustomerRepository.Response> {
+        const customer = Utils.searchByProperty({
+            items: this.items,
+            property: 'id',
+            target: id,
+        });
+
+        customer.deletedAt = new Date();
+        customer.isDeleted = true;
     }
 }

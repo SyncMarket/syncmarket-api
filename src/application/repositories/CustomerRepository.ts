@@ -1,5 +1,6 @@
 import {
     CreateCustomerRepository,
+    DeleteCustomerRepository,
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
     GetCustomerByIdRepository,
@@ -12,7 +13,8 @@ export abstract class CustomerRepository
         GetCustomerByEmailRepository,
         GetCustomerByDocumentRepository,
         GetCustomerByIdRepository,
-        UpdateCustomerRepository
+        UpdateCustomerRepository,
+        DeleteCustomerRepository
 {
     abstract create(
         data: CreateCustomerRepository.Request,
@@ -33,4 +35,8 @@ export abstract class CustomerRepository
     abstract update(
         request: UpdateCustomerRepository.Request,
     ): Promise<UpdateCustomerRepository.Response>;
+
+    abstract delete(
+        id: DeleteCustomerRepository.Request,
+    ): Promise<DeleteCustomerRepository.Response>;
 }

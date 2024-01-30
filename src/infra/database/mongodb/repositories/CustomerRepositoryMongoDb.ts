@@ -8,6 +8,7 @@ import {
 } from '@infra/database/mongodb';
 import {
     CreateCustomerRepository,
+    DeleteCustomerRepository,
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
     GetCustomerByIdRepository,
@@ -91,6 +92,22 @@ export class CustomerRepositoryMongoDb implements CustomerRepository {
             },
             {
                 $set: CustomerMapperMongoDb.toModel(data),
+            },
+        );
+    }
+
+    async delete(
+        id: DeleteCustomerRepository.Request,
+    ): Promise<DeleteCustomerRepository.Response> {
+        await this.collection.updateOne(
+            {
+                _id: stringToObjectId(id),
+            },
+            {
+                $set: {
+                    isDeleted: true,
+                    deletedAt: new Date(),
+                },
             },
         );
     }
