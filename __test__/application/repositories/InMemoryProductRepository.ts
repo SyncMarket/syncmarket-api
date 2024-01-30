@@ -8,45 +8,47 @@ import {
 } from '@application/interfaces';
 import { ProductRepository } from '@application/repositories';
 import { ProductEntity } from '@core/entities';
+import { Utils } from '@core/utils';
 
 export class InMemoryProductRepository implements ProductRepository {
-    items: ProductEntity[] = [];
+    public items: ProductEntity[] = [];
 
-    async create(
+    constructor() {
+        this.items = [];
+    }
+
+    public async create(
         data: CreateProductRepository.Request,
     ): Promise<ProductEntity> {
         const productEntity = new ProductEntity(data);
 
         this.items.push(productEntity);
+        this.items = Utils.sortByProperty(this.items, 'createdAt');
 
         return productEntity;
     }
 
-    async getBySku(
+    public async getBySku(
         sku: GetProductBySkuRepository.Request,
     ): Promise<GetProductBySkuRepository.Response> {
-        const productEntity = this.items.find((item) => item.sku === sku);
-
-        if (!productEntity) {
-            return null;
-        }
-
-        return productEntity;
+        return Utils.searchByProperty({
+            items: this.items,
+            property: 'sku',
+            target: sku,
+        });
     }
 
-    async getByNbm(
+    public async getByNbm(
         nbm: GetProductByNbmRepository.Request,
     ): Promise<GetProductByNbmRepository.Response> {
-        const productEntity = this.items.find((item) => item.nbm === nbm);
-
-        if (!productEntity) {
-            return null;
-        }
-
-        return productEntity;
+        return Utils.searchByProperty({
+            items: this.items,
+            property: 'nbm',
+            target: nbm,
+        });
     }
 
-    async update(
+    public async update(
         request: UpdateProductRepository.Request,
     ): Promise<UpdateProductRepository.Response> {
         const productIndex = this.items.findIndex(
@@ -56,19 +58,17 @@ export class InMemoryProductRepository implements ProductRepository {
         this.items[productIndex] = request;
     }
 
-    async getById(
+    public async getById(
         id: GetProductByIdRepository.Request,
     ): Promise<GetProductByIdRepository.Response> {
-        const productEntity = this.items.find((item) => item.id === id);
-
-        if (!productEntity) {
-            return null;
-        }
-
-        return productEntity;
+        return Utils.searchByProperty({
+            items: this.items,
+            property: 'id',
+            target: id,
+        });
     }
 
-    async get(
+    public async get(
         request: GetProductRepository.Request,
     ): Promise<GetProductRepository.Response> {
         const { page, pageSize } = request;
