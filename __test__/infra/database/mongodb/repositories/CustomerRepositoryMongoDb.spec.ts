@@ -112,4 +112,20 @@ describe('CustomerRepositoryMongoDb', () => {
             expect(customerUpdated).toEqual(updateRequest);
         });
     });
+
+    describe('deleteCustomer', () => {
+        it('should delete a customer and return success', async () => {
+            const customerRepository = new CustomerRepositoryMongoDb();
+
+            const customerEntity = makeFakeCustomerMongo();
+
+            const { id } = await customerRepository.create(customerEntity);
+
+            await customerRepository.delete(id);
+
+            const customerDeleted = await customerRepository.getById(id);
+
+            expect(customerDeleted.isDeleted).toBeTruthy();
+        });
+    });
 });
