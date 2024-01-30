@@ -1,6 +1,7 @@
 import { expressRouteAdapter } from '@main/adapter';
 import {
     makeCreateCustomerController,
+    makeDeleteCustomerController,
     makeGetCustomerByIdController,
     makeUpdateCustomerController,
 } from '@main/factories/controllers';
@@ -18,5 +19,9 @@ export const customerRoutes = (router: Router) => {
     router.patch(
         '/customer/:id',
         expressRouteAdapter(makeUpdateCustomerController()),
+    );
+    router.delete(
+        '/customer/:id',
+        expressRouteAdapter(makeDeleteCustomerController()),
     );
 };
