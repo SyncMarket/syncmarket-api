@@ -1,3 +1,9 @@
+import { AddressDTO } from './Address';
+
+export interface CustomerAddress extends AddressDTO {
+    id: string;
+}
+
 export interface CustomerDTO {
     name: string;
     email: string;
@@ -5,12 +11,13 @@ export interface CustomerDTO {
     document: string;
     birthDate: Date;
     phoneNumber: string;
-    addressId: string;
+    address: CustomerAddress | null;
     cartId: string | null;
 }
 
-export interface Customer extends Omit<CustomerDTO, 'password'> {
+export interface Customer extends Omit<CustomerDTO, 'password' | 'address'> {
     id: string;
+    addresses: CustomerAddress[];
     isActive: boolean;
     isDeleted: boolean;
     createdAt: Date;

@@ -1,7 +1,8 @@
+import { CustomerAddress } from '@core/interfaces';
 import { ObjectId } from 'mongodb';
 
 export type CustomerModelMongoDb = {
-    addressId: ObjectId;
+    addresses: CustomerAddressModelMongoDb[];
     cartId: ObjectId;
     name: string;
     email: string;
@@ -14,3 +15,8 @@ export type CustomerModelMongoDb = {
     updatedAt: Date | null;
     deletedAt: Date | null;
 };
+
+export interface CustomerAddressModelMongoDb
+    extends Omit<CustomerAddress, 'id'> {
+    _id: ObjectId;
+}

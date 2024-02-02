@@ -10,7 +10,22 @@ export class CustomerMapperMongoDb {
     static toEntity(model: WithId<CustomerModelMongoDb>): CustomerEntity {
         return {
             id: objectIdToString(model._id),
-            addressId: objectIdToString(model.addressId),
+            addresses: model.addresses.map((address) => {
+                return {
+                    id: objectIdToString(address._id),
+                    phoneNumber: address.phoneNumber,
+                    city: address.city,
+                    type: address.type,
+                    state: address.state,
+                    isMain: address.isMain,
+                    number: address.number,
+                    street: address.street,
+                    complement: address.complement,
+                    zipcode: address.zipcode,
+                    country: address.country,
+                    neighborhood: address.neighborhood,
+                };
+            }),
             birthDate: model.birthDate,
             cartId: model.cartId ? objectIdToString(model.cartId) : null,
             document: model.document,
@@ -29,7 +44,7 @@ export class CustomerMapperMongoDb {
         entity: CustomerEntity | Omit<CustomerEntity, 'id'>,
     ): CustomerModelMongoDb {
         return {
-            addressId: stringToObjectId(entity.addressId),
+            addresses: [],
             birthDate: entity.birthDate,
             cartId: entity.cartId ? stringToObjectId(entity.cartId) : null,
             document: entity.document,

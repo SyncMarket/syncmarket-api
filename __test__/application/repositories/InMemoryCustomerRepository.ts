@@ -21,7 +21,7 @@ export class InMemoryCustomerRepository implements CustomerRepository {
     public async create(
         data: CreateCustomerRepository.Request,
     ): Promise<CreateCustomerRepository.Response> {
-        const customerEntity = { ...data, id: 'id' };
+        const customerEntity = { ...data, id: 'customerId' };
 
         this.items.push(customerEntity);
         this.items = Utils.sortByProperty(this.items, 'createdAt');

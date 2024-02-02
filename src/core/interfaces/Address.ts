@@ -9,11 +9,11 @@ export interface AddressDTO {
     complement: string;
     type: string;
     phoneNumber: string;
+    isMain: boolean;
 }
 
 export interface Address extends AddressDTO {
     id: string;
     createdAt: Date;
     updatedAt: Date | null;
-    isMain: boolean;
 }

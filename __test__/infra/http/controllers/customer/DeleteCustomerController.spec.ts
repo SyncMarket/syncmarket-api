@@ -25,7 +25,7 @@ describe('DeleteCustomerController', () => {
     const makeHttpRequest = (): HttpRequest<undefined, { id: string }> => {
         return {
             params: {
-                id: 'id',
+                id: 'customerId',
             },
         };
     };
@@ -54,7 +54,7 @@ describe('DeleteCustomerController', () => {
         const httpResponse = await controller.handle(httpRequest);
 
         expect(httpResponse.body).toEqual(
-            new CustomerNotFoundError('id').message,
+            new CustomerNotFoundError('customerId').message,
         );
         expect(httpResponse.statusCode).toBe(404);
     });

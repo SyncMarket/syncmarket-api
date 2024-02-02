@@ -6,7 +6,7 @@ import { ObjectId } from 'mongodb';
 export const makeFakeCustomerMongo = (): CustomerEntity => {
     const customerEntity = makeFakeCustomerEntity();
 
-    customerEntity.addressId = objectIdToString(new ObjectId());
+    customerEntity.addresses = [];
     customerEntity.cartId = null;
 
     return { ...customerEntity, id: objectIdToString(new ObjectId()) };

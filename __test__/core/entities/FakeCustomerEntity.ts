@@ -3,7 +3,7 @@ import { CustomerDTO } from '@core/interfaces';
 
 export const makeFakeCustomerDTO = (): CustomerDTO => {
     const customerDTO: CustomerDTO = {
-        addressId: 'addressId',
+        address: null,
         birthDate: new Date(0),
         cartId: 'cartId',
         document: 'document',
@@ -21,5 +21,5 @@ export const makeFakeCustomerEntity = (): CustomerEntity => {
 
     const customerEntity = new CustomerEntity(customerDTO);
 
-    return { ...customerEntity };
+    return customerEntity;
 };

@@ -13,6 +13,7 @@ export const makeFakeAddressDTO = (): AddressDTO => {
         type: 'HOME',
         complement: 'complement',
         phoneNumber: 'phoneNumber',
+        isMain: true,
     };
 };
 

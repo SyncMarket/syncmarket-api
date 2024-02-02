@@ -19,7 +19,7 @@ describe('UpdateCustomerController', () => {
     };
 
     const errors = {
-        notFound: new CustomerNotFoundError('id'),
+        notFound: new CustomerNotFoundError('customerId'),
         emailAlreadyExists: new EmailAlreadyExistsError('email'),
         documentAlreadyExists: new DocumentAlreadyExistsError('document'),
     };
@@ -46,7 +46,7 @@ describe('UpdateCustomerController', () => {
                 name: 'new name',
             },
             params: {
-                id: 'id',
+                id: 'customerId',
             },
         };
     };

@@ -34,7 +34,7 @@ describe('GetCustomerByIdController', () => {
 
         const httpRequest = {
             params: {
-                id: 'id',
+                id: 'customerId',
             },
         };
 
@@ -84,7 +84,7 @@ describe('GetCustomerByIdController', () => {
 
         const httpRequest = {
             params: {
-                id: 'id',
+                id: 'customerId',
             },
         };
 
@@ -102,7 +102,7 @@ describe('GetCustomerByIdController', () => {
 
         const httpRequest = {
             params: {
-                id: 'id',
+                id: 'customerId',
             },
         };
 

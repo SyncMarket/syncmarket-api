@@ -12,39 +12,36 @@ import { AuthStub } from '@test/application/mocks';
 
 describe('CreateCustomer', () => {
     type SutTypes = {
-        createCustomer: CreateCustomer;
-        inMemoryCustomerRepository: InMemoryCustomerRepository;
+        usecase: CreateCustomer;
+        repository: InMemoryCustomerRepository;
     };
 
     const makeSut = (): SutTypes => {
-        const inMemoryCustomerRepository = new InMemoryCustomerRepository();
+        const repository = new InMemoryCustomerRepository();
         const authStub = new AuthStub();
 
-        const createCustomer = new CreateCustomer(
-            inMemoryCustomerRepository,
-            inMemoryCustomerRepository,
-            inMemoryCustomerRepository,
+        const usecase = new CreateCustomer(
+            repository,
+            repository,
+            repository,
             authStub,
         );
 
         return {
-            createCustomer,
-            inMemoryCustomerRepository,
+            usecase,
+            repository,
         };
     };
 
     it('should call CreateCustomerRepository with correct data', async () => {
-        const { createCustomer, inMemoryCustomerRepository } = makeSut();
+        const { usecase, repository } = makeSut();
 
-        const createCustomerSpy = jest.spyOn(
-            inMemoryCustomerRepository,
-            'create',
-        );
+        const createCustomerSpy = jest.spyOn(repository, 'create');
 
         const fakeCustomerDTO = makeFakeCustomerDTO();
         const fakeCustomerEntity = makeFakeCustomerEntity();
 
-        const customerEntity = await createCustomer.execute(fakeCustomerDTO);
+        const customerEntity = await usecase.execute(fakeCustomerDTO);
 
         expect(customerEntity.isRight()).toBeTruthy();
 
@@ -56,13 +53,13 @@ describe('CreateCustomer', () => {
     });
 
     it('should return EmailAlreadyExistsError if email already exists', async () => {
-        const { createCustomer } = makeSut();
+        const { usecase } = makeSut();
 
         const fakeCustomerDTO = makeFakeCustomerDTO();
 
-        await createCustomer.execute(fakeCustomerDTO);
+        await usecase.execute(fakeCustomerDTO);
 
-        const customer = await createCustomer.execute(fakeCustomerDTO);
+        const customer = await usecase.execute(fakeCustomerDTO);
 
         expect(customer.isLeft).toBeTruthy();
         expect(customer.value).toEqual(
@@ -71,15 +68,15 @@ describe('CreateCustomer', () => {
     });
 
     it('should return DocumentAlreadyExistsError if document already exists', async () => {
-        const { createCustomer } = makeSut();
+        const { usecase } = makeSut();
 
         const fakeCustomerDTO = makeFakeCustomerDTO();
 
-        await createCustomer.execute(fakeCustomerDTO);
+        await usecase.execute(fakeCustomerDTO);
 
         fakeCustomerDTO.email = 'email2@mail.com';
 
-        const customer = await createCustomer.execute(fakeCustomerDTO);
+        const customer = await usecase.execute(fakeCustomerDTO);
 
         expect(customer.isLeft).toBeTruthy();
         expect(customer.value).toEqual(
@@ -88,16 +85,16 @@ describe('CreateCustomer', () => {
     });
 
     it('should return CustomerEntity if success', async () => {
-        const { createCustomer } = makeSut();
+        const { usecase } = makeSut();
 
         const fakeCustomerDTO = makeFakeCustomerDTO();
         const fakeCustomerEntity = makeFakeCustomerEntity();
 
-        const customer = await createCustomer.execute(fakeCustomerDTO);
+        const customer = await usecase.execute(fakeCustomerDTO);
         expect(customer.isRight()).toBeTruthy();
 
         fakeCustomerEntity.createdAt = new Date(0);
-        const customerEntity = { ...fakeCustomerEntity, id: 'id' };
+        const customerEntity = { ...fakeCustomerEntity, id: 'customerId' };
         const customerExpect = { ...customer.value, createdAt: new Date(0) };
 
         expect(customerExpect).toEqual(customerEntity);

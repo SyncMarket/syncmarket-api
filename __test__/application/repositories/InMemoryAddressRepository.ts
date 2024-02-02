@@ -9,7 +9,7 @@ export class InMemoryAddressRepository implements AddressRepository {
     async create(
         data: CreateAddressRepository.Request,
     ): Promise<CreateAddressRepository.Response> {
-        const addressEntity = { ...data, id: 'id' };
+        const addressEntity = { ...data, id: 'addressId' };
 
         this.items.push(addressEntity);
         this.items = Utils.sortByProperty(this.items, 'createdAt');
