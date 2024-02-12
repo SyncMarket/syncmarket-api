@@ -1,7 +1,16 @@
-import { CreateAddressRepository } from '@application/interfaces';
+import {
+    CreateAddressRepository,
+    GetAddressByIdRepository,
+} from '@application/interfaces';
 
-export abstract class AddressRepository implements CreateAddressRepository {
+export abstract class AddressRepository
+    implements CreateAddressRepository, GetAddressByIdRepository
+{
     abstract create(
         data: CreateAddressRepository.Request,
     ): Promise<CreateAddressRepository.Response>;
+
+    abstract getById(
+        id: GetAddressByIdRepository.Request,
+    ): Promise<GetAddressByIdRepository.Response>;
 }

@@ -16,4 +16,8 @@ export class InMemoryAddressRepository implements AddressRepository {
 
         return addressEntity;
     }
+
+    async getById(id: string): Promise<AddressEntity | null> {
+        return this.items.find((item) => item.id === id) || null;
+    }
 }

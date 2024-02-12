@@ -1,6 +1,7 @@
 import { Either } from '@core/either';
 import { Address, AddressDTO } from '@core/interfaces';
 import { Usecase } from '@application/interfaces';
+import { CustomerNotFoundError } from '@core/errors';
 
 export interface CreateAddressInterface
     extends Usecase<
@@ -14,5 +15,5 @@ export interface CreateAddressInterface
 
 export namespace CreateAddressInterface {
     export type Request = { customerId: string; addressDTO: AddressDTO };
-    export type Response = Either<Error, Address>;
+    export type Response = Either<CustomerNotFoundError, Address>;
 }
