@@ -1,9 +1,8 @@
+import { CreateAddressInterface } from '@application/interfaces';
 import {
-    CreateAddressInterface,
-    CreateAddressRepository,
-    GetCustomerByIdRepository,
-    UpdateCustomerRepository,
-} from '@application/interfaces';
+    AddressRepository,
+    CustomerRepository,
+} from '@application/repositories';
 import { left, right } from '@core/either';
 import { AddressEntity } from '@core/entities';
 import { CustomerNotFoundError } from '@core/errors';
@@ -11,9 +10,8 @@ import { CustomerAddress } from '@core/interfaces';
 
 export class CreateAddress implements CreateAddressInterface {
     constructor(
-        private readonly createAddressRepository: CreateAddressRepository,
-        private readonly getCustomerByIdRepository: GetCustomerByIdRepository,
-        private readonly updateCustomerRepository: UpdateCustomerRepository,
+        private readonly addressRepository: AddressRepository,
+        private readonly customerRepository: CustomerRepository,
     ) {}
 
     async execute(
@@ -22,7 +20,7 @@ export class CreateAddress implements CreateAddressInterface {
         const { addressDTO, customerId } = request;
 
         const customerEntity =
-            await this.getCustomerByIdRepository.getById(customerId);
+            await this.customerRepository.getById(customerId);
 
         if (!customerEntity) {
             return left(new CustomerNotFoundError(customerId));
@@ -30,7 +28,7 @@ export class CreateAddress implements CreateAddressInterface {
 
         const addressEntity = new AddressEntity(addressDTO);
 
-        const { id } = await this.createAddressRepository.create(addressEntity);
+        const { id } = await this.addressRepository.create(addressEntity);
 
         const customerAddress: CustomerAddress = {
             id,
@@ -49,7 +47,7 @@ export class CreateAddress implements CreateAddressInterface {
 
         customerEntity.addresses.push(customerAddress);
 
-        await this.updateCustomerRepository.update({
+        await this.customerRepository.update({
             id: customerId,
             data: customerEntity,
         });

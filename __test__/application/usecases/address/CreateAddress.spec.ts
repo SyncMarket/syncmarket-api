@@ -1,13 +1,4 @@
-import { CreateAddress } from '@application/usecases';
 import { CreateAddressInterface } from '@application/interfaces';
-import {
-    AddressRepository,
-    CustomerRepository,
-} from '@application/repositories';
-import {
-    InMemoryAddressRepository,
-    InMemoryCustomerRepository,
-} from '@test/application/repositories';
 import {
     makeFakeAddressDTO,
     makeFakeAddressEntity,
@@ -15,28 +6,13 @@ import {
 } from '@test/core/entities';
 import { CustomerNotFoundError } from '@core/errors';
 import { CustomerAddress } from '@core/interfaces';
+import { AddressStub } from '@test/application';
 
 describe('CreateAddress', () => {
-    type SutTypes = {
-        usecase: CreateAddressInterface;
-        repository: AddressRepository;
-        customerRepository: CustomerRepository;
-    };
-
-    const makeSut = (): SutTypes => {
-        const repository = new InMemoryAddressRepository();
-        const customerRepository = new InMemoryCustomerRepository();
-        const usecase = new CreateAddress(
-            repository,
-            customerRepository,
-            customerRepository,
-        );
-
-        return { usecase, repository, customerRepository };
-    };
+    const createStub = AddressStub.createStub();
 
     it('should call CreateAddressRepository with correct data', async () => {
-        const { usecase, repository, customerRepository } = makeSut();
+        const { usecase, repository, customerRepository } = createStub;
 
         const createSpy = jest.spyOn(repository, 'create');
         const fakeAddressDTO = makeFakeAddressDTO();
@@ -60,21 +36,23 @@ describe('CreateAddress', () => {
     });
 
     it('should return CustomerNotFoundError if customer does not exist', async () => {
-        const { usecase } = makeSut();
+        const { usecase } = createStub;
         const fakeAddressDTO = makeFakeAddressDTO();
 
         const request: CreateAddressInterface.Request = {
             addressDTO: fakeAddressDTO,
-            customerId: 'customerId',
+            customerId: 'invalidCustomerId',
         };
         const response = await usecase.execute(request);
 
         expect(response.isLeft()).toBeTruthy();
-        expect(response.value).toEqual(new CustomerNotFoundError('customerId'));
+        expect(response.value).toEqual(
+            new CustomerNotFoundError('invalidCustomerId'),
+        );
     });
 
     it('should save address on customer', async () => {
-        const { usecase, customerRepository } = makeSut();
+        const { usecase, customerRepository } = createStub;
         const fakeCustomerEntity = makeFakeCustomerEntity();
 
         const { id: customerId } =
@@ -98,7 +76,7 @@ describe('CreateAddress', () => {
     });
 
     it('should return an address on success', async () => {
-        const { usecase, customerRepository } = makeSut();
+        const { usecase, customerRepository } = createStub;
         const fakeAddressDTO = makeFakeAddressDTO();
         const fakeAddressEntity = makeFakeAddressEntity();
         const fakeCustomerEntity = makeFakeCustomerEntity();
