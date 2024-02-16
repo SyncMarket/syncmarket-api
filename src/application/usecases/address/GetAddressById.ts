@@ -3,7 +3,7 @@ import { AddressRepository } from '@application/repositories';
 import { left, right } from '@core/either';
 import { AddressNotFoundError } from '@core/errors';
 
-export class GetAddresById implements GetAddressByIdInterface {
+export class GetAddressById implements GetAddressByIdInterface {
     constructor(private readonly addressRepository: AddressRepository) {}
 
     async execute(

@@ -1,4 +1,8 @@
-import { CreateAddress } from '@application/usecases';
+import {
+    CreateAddress,
+    GetAddressById,
+    GetAddresses,
+} from '@application/usecases';
 import {
     AddressRepositoryMongoDb,
     CustomerRepositoryMongoDb,
@@ -6,12 +10,18 @@ import {
 
 export class AddressFactory {
     static create(): CreateAddress {
-        const addressRepositoryMongoDb = new AddressRepositoryMongoDb();
-        const customerRepositoryMongoDb = new CustomerRepositoryMongoDb();
+        const addressRepository = new AddressRepositoryMongoDb();
+        const customerRepository = new CustomerRepositoryMongoDb();
+        return new CreateAddress(addressRepository, customerRepository);
+    }
 
-        return new CreateAddress(
-            addressRepositoryMongoDb,
-            customerRepositoryMongoDb,
-        );
+    static getById(): GetAddressById {
+        const addressRepository = new AddressRepositoryMongoDb();
+        return new GetAddressById(addressRepository);
+    }
+
+    static get(): GetAddresses {
+        const addressRepository = new AddressRepositoryMongoDb();
+        return new GetAddresses(addressRepository);
     }
 }

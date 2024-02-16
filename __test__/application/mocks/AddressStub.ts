@@ -9,7 +9,7 @@ import {
 } from '@application/repositories';
 import {
     CreateAddress,
-    GetAddresById,
+    GetAddressById,
     GetAddresses,
 } from '@application/usecases';
 
@@ -36,7 +36,7 @@ export class AddressStub {
     static getByIdStub(): AddressStubType<GetAddressByIdInterface> {
         const repository = new InMemoryAddressRepository();
         const customerRepository = new InMemoryCustomerRepository();
-        const usecase = new GetAddresById(repository);
+        const usecase = new GetAddressById(repository);
 
         return { usecase, repository, customerRepository };
     }
