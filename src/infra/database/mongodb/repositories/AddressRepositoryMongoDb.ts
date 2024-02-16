@@ -1,6 +1,9 @@
 import { AddressRepository } from '@application/repositories';
 import { Collection } from 'mongodb';
-import { CreateAddressRepository } from '@application/interfaces';
+import {
+    CreateAddressRepository,
+    GetAddressesRepository,
+} from '@application/interfaces';
 import {
     AddressMapperMongoDb,
     AddressModelMongoDb,
@@ -43,5 +46,32 @@ export class AddressRepositoryMongoDb implements AddressRepository {
         }
 
         return AddressMapperMongoDb.toEntity(model);
+    }
+
+    public async get(
+        request: GetAddressesRepository.Request,
+    ): Promise<GetAddressesRepository.Response> {
+        const { page, pageSize } = request;
+
+        const models = await this.collection
+            .find()
+            .skip(page)
+            .limit(pageSize)
+            .toArray();
+
+        const total = await this.collection.countDocuments();
+
+        const data = models.map((model) =>
+            AddressMapperMongoDb.toEntity(model),
+        );
+
+        return {
+            data: data,
+            page: {
+                elements: data.length,
+                totalElements: total,
+                number: page,
+            },
+        };
     }
 }

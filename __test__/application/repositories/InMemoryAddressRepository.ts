@@ -1,4 +1,7 @@
-import { CreateAddressRepository } from '@application/interfaces';
+import {
+    CreateAddressRepository,
+    GetAddressesRepository,
+} from '@application/interfaces';
 import { AddressEntity } from '@core/entities';
 import { Utils } from '@core/utils';
 import { AddressRepository } from '@application/repositories';
@@ -19,5 +22,24 @@ export class InMemoryAddressRepository implements AddressRepository {
 
     async getById(id: string): Promise<AddressEntity | null> {
         return this.items.find((item) => item.id === id) || null;
+    }
+
+    async get(
+        request: GetAddressesRepository.Request,
+    ): Promise<GetAddressesRepository.Response> {
+        const { page, pageSize } = request;
+
+        const data = this.items.slice(page, page + pageSize);
+
+        const total = this.items.length;
+
+        return {
+            data,
+            page: {
+                elements: data.length,
+                totalElements: total,
+                number: page,
+            },
+        };
     }
 }

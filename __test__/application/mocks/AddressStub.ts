@@ -1,13 +1,18 @@
 import {
     CreateAddressInterface,
     GetAddressByIdInterface,
+    GetAddressesInterface,
 } from '@application/interfaces';
 import {
     AddressRepository,
     CustomerRepository,
 } from '@application/repositories';
-import { CreateAddress } from '@application/usecases';
-import { GetAddresById } from '@application/usecases/address/GetAddressById';
+import {
+    CreateAddress,
+    GetAddresById,
+    GetAddresses,
+} from '@application/usecases';
+
 import {
     InMemoryAddressRepository,
     InMemoryCustomerRepository,
@@ -34,5 +39,12 @@ export class AddressStub {
         const usecase = new GetAddresById(repository);
 
         return { usecase, repository, customerRepository };
+    }
+
+    static getStub(): AddressStubType<GetAddressesInterface> {
+        const repository = new InMemoryAddressRepository();
+        const usecase = new GetAddresses(repository);
+
+        return { usecase, repository };
     }
 }
