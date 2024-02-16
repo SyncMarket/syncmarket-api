@@ -8,13 +8,13 @@ import {
 import { makeFakeAddressMongo } from '@test/infra/database/mongodb';
 
 describe('AddressRepositoryMongoDb', () => {
-    let addressCollection: Collection<AddressModelMongoDb>;
+    let collection: Collection<AddressModelMongoDb>;
     let repository: AddressRepositoryMongoDb;
 
     beforeAll(async () => {
         mongoDB.database = mongoDB.client.db('syncmarket_test');
 
-        addressCollection = AddressRepositoryMongoDb.getCollection();
+        collection = AddressRepositoryMongoDb.getCollection();
         repository = new AddressRepositoryMongoDb();
 
         await mongoDB.connect();
@@ -25,7 +25,7 @@ describe('AddressRepositoryMongoDb', () => {
     });
 
     beforeEach(async () => {
-        await addressCollection.deleteMany({});
+        await collection.deleteMany({});
     });
 
     describe('createAddress', () => {
@@ -37,7 +37,7 @@ describe('AddressRepositoryMongoDb', () => {
             const response = await addressRepository.create(address);
             expect(response).toBeTruthy();
 
-            const count = await addressCollection.countDocuments();
+            const count = await collection.countDocuments();
 
             expect(count).toBe(1);
             expect(response).toEqual({ ...address, id: response.id });
