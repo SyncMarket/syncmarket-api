@@ -2,13 +2,15 @@ import {
     CreateAddressRepository,
     GetAddressByIdRepository,
     GetAddressesRepository,
+    UpdateAddressRepository,
 } from '@application/interfaces';
 
 export abstract class AddressRepository
     implements
         CreateAddressRepository,
         GetAddressByIdRepository,
-        GetAddressesRepository
+        GetAddressesRepository,
+        UpdateAddressRepository
 {
     abstract create(
         data: CreateAddressRepository.Request,
@@ -21,4 +23,8 @@ export abstract class AddressRepository
     abstract get(
         request: GetAddressesRepository.Request,
     ): Promise<GetAddressesRepository.Response>;
+
+    abstract update(
+        request: UpdateAddressRepository.Request,
+    ): Promise<UpdateAddressRepository.Response>;
 }

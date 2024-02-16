@@ -1,6 +1,7 @@
 import {
     CreateAddressRepository,
     GetAddressesRepository,
+    UpdateAddressRepository,
 } from '@application/interfaces';
 import { AddressEntity } from '@core/entities';
 import { Utils } from '@core/utils';
@@ -41,5 +42,13 @@ export class InMemoryAddressRepository implements AddressRepository {
                 number: page,
             },
         };
+    }
+
+    public async update(
+        request: UpdateAddressRepository.Request,
+    ): Promise<void> {
+        const { data, id } = request;
+        const index = this.items.findIndex((item) => item.id === id);
+        this.items[index] = { ...data, id };
     }
 }

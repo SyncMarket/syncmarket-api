@@ -3,6 +3,7 @@ import { Collection } from 'mongodb';
 import {
     CreateAddressRepository,
     GetAddressesRepository,
+    UpdateAddressRepository,
 } from '@application/interfaces';
 import {
     AddressMapperMongoDb,
@@ -73,5 +74,15 @@ export class AddressRepositoryMongoDb implements AddressRepository {
                 number: page,
             },
         };
+    }
+
+    public async update(
+        request: UpdateAddressRepository.Request,
+    ): Promise<void> {
+        const { id, data } = request;
+        await this.collection.updateOne(
+            { _id: stringToObjectId(id) },
+            { $set: AddressMapperMongoDb.toModel(data) },
+        );
     }
 }
