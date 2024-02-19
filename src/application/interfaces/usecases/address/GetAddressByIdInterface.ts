@@ -15,5 +15,7 @@ export interface GetAddressByIdInterface
 
 export namespace GetAddressByIdInterface {
     export type Request = { id: string };
+    export type Errors = AddressNotFoundError;
+    export type Data = Address;
     export type Response = Either<AddressNotFoundError, Address>;
 }

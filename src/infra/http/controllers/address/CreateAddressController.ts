@@ -1,7 +1,7 @@
 import { CreateAddressInterface } from '@application/interfaces';
 import { BaseController } from '../BaseController';
 import { HttpRequest, HttpResponse } from '@infra/http/interfaces';
-import { conflict, ok } from '@infra/http/helpers';
+import { notFound, ok } from '@infra/http/helpers';
 
 export class CreateAddressController extends BaseController {
     constructor(private readonly createAddress: CreateAddressInterface) {
@@ -16,7 +16,7 @@ export class CreateAddressController extends BaseController {
         const response = await this.createAddress.execute(data);
 
         if (response.isLeft()) {
-            return conflict(response.value);
+            return notFound(response.value);
         }
 
         return ok(response.value);
@@ -26,7 +26,6 @@ export class CreateAddressController extends BaseController {
 export namespace CreateAddressController {
     export type Request = HttpRequest<CreateAddressInterface.Request>;
     export type Response = HttpResponse<
-        | CreateAddressInterface.ResponseErrors
-        | CreateAddressInterface.ResponseData
+        CreateAddressInterface.Errors | CreateAddressInterface.Data
     >;
 }

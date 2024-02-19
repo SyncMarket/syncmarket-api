@@ -7,4 +7,8 @@ export const addressRoutes = (router: Router) => {
         '/address',
         expressRouteAdapter(AddressControllerFactory.create()),
     );
+    router.post(
+        '/address/:id',
+        expressRouteAdapter(AddressControllerFactory.getById()),
+    );
 };

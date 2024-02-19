@@ -1,5 +1,11 @@
-import { CreateAddressInterface } from '@application/interfaces';
-import { CreateAddressController } from '@infra/http/controllers';
+import {
+    CreateAddressInterface,
+    GetAddressByIdInterface,
+} from '@application/interfaces';
+import {
+    CreateAddressController,
+    GetAddressByIdController,
+} from '@infra/http/controllers';
 import { AddressRepository } from '@application/repositories';
 import { AddressStub } from '@test/application';
 
@@ -17,5 +23,14 @@ export class AddressControllerStub {
         const { usecase } = AddressStub.createStub();
         const controller = new CreateAddressController(usecase);
         return { usecase, controller };
+    }
+
+    static getById(): ControllerStubType<
+        GetAddressByIdController,
+        GetAddressByIdInterface
+    > {
+        const { usecase, repository } = AddressStub.getByIdStub();
+        const controller = new GetAddressByIdController(usecase);
+        return { usecase, controller, repository };
     }
 }

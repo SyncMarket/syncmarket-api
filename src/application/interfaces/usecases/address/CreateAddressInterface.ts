@@ -15,7 +15,7 @@ export interface CreateAddressInterface
 
 export namespace CreateAddressInterface {
     export type Request = { customerId: string; addressDTO: AddressDTO };
-    export type ResponseErrors = CustomerNotFoundError;
-    export type ResponseData = Address;
-    export type Response = Either<ResponseErrors, ResponseData>;
+    export type Errors = CustomerNotFoundError;
+    export type Data = Address;
+    export type Response = Either<Errors, Data>;
 }
