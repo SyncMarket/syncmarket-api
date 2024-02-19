@@ -2,6 +2,7 @@ import {
     CreateAddressInterface,
     GetAddressByIdInterface,
     GetAddressesInterface,
+    UpdateAddressInterface,
 } from '@application/interfaces';
 import {
     AddressRepository,
@@ -11,6 +12,7 @@ import {
     CreateAddress,
     GetAddressById,
     GetAddresses,
+    UpdateAddress,
 } from '@application/usecases';
 
 import {
@@ -29,7 +31,6 @@ export class AddressStub {
         const repository = new InMemoryAddressRepository();
         const customerRepository = new InMemoryCustomerRepository();
         const usecase = new CreateAddress(repository, customerRepository);
-
         return { usecase, repository, customerRepository };
     }
 
@@ -37,14 +38,18 @@ export class AddressStub {
         const repository = new InMemoryAddressRepository();
         const customerRepository = new InMemoryCustomerRepository();
         const usecase = new GetAddressById(repository);
-
         return { usecase, repository, customerRepository };
     }
 
     static getStub(): AddressStubType<GetAddressesInterface> {
         const repository = new InMemoryAddressRepository();
         const usecase = new GetAddresses(repository);
+        return { usecase, repository };
+    }
 
+    static updateStub(): AddressStubType<UpdateAddressInterface> {
+        const repository = new InMemoryAddressRepository();
+        const usecase = new UpdateAddress(repository);
         return { usecase, repository };
     }
 }
