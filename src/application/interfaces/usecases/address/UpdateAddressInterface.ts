@@ -14,6 +14,9 @@ export interface UpdateAddressInterface
 }
 
 export namespace UpdateAddressInterface {
-    export type Request = { data: Partial<AddressDTO>; id: string };
+    export type DTO = Partial<AddressDTO>;
+    export type Request = { data: DTO; id: string };
+    export type Errors = AddressNotFoundError;
+    export type Data = Address;
     export type Response = Either<AddressNotFoundError, Address>;
 }

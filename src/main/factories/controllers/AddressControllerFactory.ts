@@ -2,6 +2,7 @@ import {
     CreateAddressController,
     GetAddressByIdController,
     GetAddressesController,
+    UpdateAddressController,
 } from '@infra/http/controllers';
 import { AddressFactory } from '@main/factories';
 
@@ -19,5 +20,10 @@ export class AddressControllerFactory {
     static get(): GetAddressesController {
         const getAddresses = AddressFactory.get();
         return new GetAddressesController(getAddresses);
+    }
+
+    static update(): UpdateAddressController {
+        const updateAddress = AddressFactory.update();
+        return new UpdateAddressController(updateAddress);
     }
 }

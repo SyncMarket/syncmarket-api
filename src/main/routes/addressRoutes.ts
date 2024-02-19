@@ -12,4 +12,8 @@ export const addressRoutes = (router: Router) => {
         expressRouteAdapter(AddressControllerFactory.getById()),
     );
     router.get('/address', expressRouteAdapter(AddressControllerFactory.get()));
+    router.patch(
+        '/address/:id',
+        expressRouteAdapter(AddressControllerFactory.update()),
+    );
 };

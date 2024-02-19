@@ -2,6 +2,7 @@ import {
     CreateAddress,
     GetAddressById,
     GetAddresses,
+    UpdateAddress,
 } from '@application/usecases';
 import {
     AddressRepositoryMongoDb,
@@ -23,5 +24,10 @@ export class AddressFactory {
     static get(): GetAddresses {
         const addressRepository = new AddressRepositoryMongoDb();
         return new GetAddresses(addressRepository);
+    }
+
+    static update(): UpdateAddress {
+        const addressRepository = new AddressRepositoryMongoDb();
+        return new UpdateAddress(addressRepository);
     }
 }
