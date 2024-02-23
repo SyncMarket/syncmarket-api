@@ -2,6 +2,7 @@ import { AddressRepository } from '@application/repositories';
 import { Collection } from 'mongodb';
 import {
     CreateAddressRepository,
+    GetAddressesByCustomerRepository,
     GetAddressesRepository,
     UpdateAddressRepository,
 } from '@application/interfaces';
@@ -84,5 +85,19 @@ export class AddressRepositoryMongoDb implements AddressRepository {
             { _id: stringToObjectId(id) },
             { $set: AddressMapperMongoDb.toModel(data) },
         );
+    }
+
+    public async getByCustomer(
+        customerId: GetAddressesByCustomerRepository.Request,
+    ): Promise<GetAddressesByCustomerRepository.Response> {
+        const addressesModels = await this.collection
+            .find({
+                customerId: stringToObjectId(customerId),
+            })
+            .toArray();
+        const addressesEntities = addressesModels.map((address) =>
+            AddressMapperMongoDb.toEntity(address),
+        );
+        return addressesEntities;
     }
 }

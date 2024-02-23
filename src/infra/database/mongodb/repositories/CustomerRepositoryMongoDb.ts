@@ -12,7 +12,6 @@ import {
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
     GetCustomerByIdRepository,
-    GetCustomersRepository,
     UpdateCustomerRepository,
 } from '@application/interfaces';
 
@@ -111,32 +110,5 @@ export class CustomerRepositoryMongoDb implements CustomerRepository {
                 },
             },
         );
-    }
-
-    public async get(
-        request: GetCustomersRepository.Request,
-    ): Promise<GetCustomersRepository.Response> {
-        const { page, pageSize } = request;
-
-        const customerModelGroup = await this.collection
-            .find()
-            .skip(page)
-            .limit(pageSize)
-            .toArray();
-
-        const total = await this.collection.countDocuments();
-
-        const data = customerModelGroup.map((customerModel) =>
-            CustomerMapperMongoDb.toEntity(customerModel),
-        );
-
-        return {
-            data: data,
-            page: {
-                number: page,
-                elements: data.length,
-                totalElements: total,
-            },
-        };
     }
 }

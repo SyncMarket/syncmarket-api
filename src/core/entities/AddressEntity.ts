@@ -2,6 +2,7 @@ import { AddressDTO } from '@core/interfaces';
 
 export class AddressEntity {
     public readonly id: string;
+    public customerId: string;
     public street: string;
     public city: string;
     public state: string;
@@ -17,6 +18,7 @@ export class AddressEntity {
     public isMain: boolean;
 
     constructor(addressDTO: AddressDTO) {
+        this.customerId = addressDTO.customerId;
         this.street = addressDTO.street;
         this.city = addressDTO.city;
         this.state = addressDTO.state;

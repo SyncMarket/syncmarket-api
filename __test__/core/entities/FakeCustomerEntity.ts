@@ -5,21 +5,19 @@ export const makeFakeCustomerDTO = (): CustomerDTO => {
     const customerDTO: CustomerDTO = {
         address: null,
         birthDate: new Date(0),
-        cartId: 'cartId',
+        cartId: null,
         document: 'document',
         email: 'email',
         password: 'password',
         name: 'name',
         phoneNumber: 'phoneNumber',
     };
-
     return customerDTO;
 };
 
 export const makeFakeCustomerEntity = (): CustomerEntity => {
     const customerDTO = makeFakeCustomerDTO();
-
     const customerEntity = new CustomerEntity(customerDTO);
-
+    customerEntity.createdAt = new Date(0);
     return customerEntity;
 };

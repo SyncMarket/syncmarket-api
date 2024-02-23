@@ -1,4 +1,4 @@
-import { Customer } from '@core/interfaces';
+import { CustomerEntity } from '@core/entities';
 
 export interface GetCustomerByIdRepository {
     getById(
@@ -8,5 +8,5 @@ export interface GetCustomerByIdRepository {
 
 export namespace GetCustomerByIdRepository {
     export type Request = string;
-    export type Response = Customer | null;
+    export type Response = CustomerEntity | null;
 }

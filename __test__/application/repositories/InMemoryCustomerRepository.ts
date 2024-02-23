@@ -4,7 +4,6 @@ import {
     GetCustomerByDocumentRepository,
     GetCustomerByEmailRepository,
     GetCustomerByIdRepository,
-    GetCustomersRepository,
     UpdateCustomerRepository,
 } from '@application/interfaces';
 import { CustomerRepository } from '@application/repositories';
@@ -80,22 +79,5 @@ export class InMemoryCustomerRepository implements CustomerRepository {
 
         customer.deletedAt = new Date();
         customer.isDeleted = true;
-    }
-
-    public async get(
-        request: GetCustomersRepository.Request,
-    ): Promise<GetCustomersRepository.Response> {
-        const { page, pageSize } = request;
-
-        const data = this.items.slice(page, pageSize);
-
-        return {
-            data: data,
-            page: {
-                elements: data.length,
-                number: page,
-                totalElements: this.items.length,
-            },
-        };
     }
 }

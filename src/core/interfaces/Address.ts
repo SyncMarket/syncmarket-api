@@ -1,4 +1,5 @@
 export interface AddressDTO {
+    customerId: string;
     street: string;
     city: string;
     state: string;
@@ -12,7 +13,7 @@ export interface AddressDTO {
     isMain: boolean;
 }
 
-export interface Address extends AddressDTO {
+export interface Address extends Omit<AddressDTO, 'customerId'> {
     id: string;
     createdAt: Date;
     updatedAt: Date | null;

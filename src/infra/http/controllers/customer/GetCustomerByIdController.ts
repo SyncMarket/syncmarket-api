@@ -12,13 +12,10 @@ export class GetCustomerByIdController extends BaseController {
         request: GetCustomerByIdController.Request,
     ): Promise<GetCustomerByIdController.Response> {
         const { id } = request.params;
-
         const response = await this.getCustomerById.execute(id);
-
         if (response.isLeft()) {
             return notFound(response.value);
         }
-
         return ok(response.value);
     }
 }

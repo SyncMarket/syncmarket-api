@@ -1,5 +1,6 @@
 import {
     CreateAddressRepository,
+    GetAddressesByCustomerRepository,
     GetAddressesRepository,
     UpdateAddressRepository,
 } from '@application/interfaces';
@@ -46,9 +47,21 @@ export class InMemoryAddressRepository implements AddressRepository {
 
     public async update(
         request: UpdateAddressRepository.Request,
-    ): Promise<void> {
+    ): Promise<UpdateAddressRepository.Response> {
         const { data, id } = request;
         const index = this.items.findIndex((item) => item.id === id);
         this.items[index] = { ...data, id };
+    }
+
+    public async getByCustomer(
+        customerId: GetAddressesByCustomerRepository.Request,
+    ): Promise<GetAddressesByCustomerRepository.Response> {
+        const addressesEntities: AddressEntity[] = [];
+        this.items.forEach((item) => {
+            if (item.customerId === customerId) {
+                addressesEntities.push(item);
+            }
+        });
+        return addressesEntities;
     }
 }

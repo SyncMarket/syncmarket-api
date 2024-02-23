@@ -1,5 +1,5 @@
 export interface SignUpInterface {
-    signUp(data: SignUpInterface.Request): Promise<SignUpInterface.Response>;
+    signUp(data: SignUpInterface.Request): Promise<void>;
 }
 
 export namespace SignUpInterface {

@@ -1,4 +1,7 @@
+import { ObjectId } from 'mongodb';
+
 export type AddressModelMongoDb = {
+    customerId: ObjectId;
     city: string;
     state: string;
     street: string;

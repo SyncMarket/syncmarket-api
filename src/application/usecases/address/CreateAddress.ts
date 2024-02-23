@@ -6,7 +6,7 @@ import {
 import { left, right } from '@core/either';
 import { AddressEntity } from '@core/entities';
 import { CustomerNotFoundError } from '@core/errors';
-import { CustomerAddress } from '@core/interfaces';
+import { Address } from '@core/interfaces';
 
 export class CreateAddress implements CreateAddressInterface {
     constructor(
@@ -30,29 +30,7 @@ export class CreateAddress implements CreateAddressInterface {
 
         const { id } = await this.addressRepository.create(addressEntity);
 
-        const customerAddress: CustomerAddress = {
-            id,
-            city: addressEntity.city,
-            state: addressEntity.state,
-            street: addressEntity.street,
-            number: addressEntity.number,
-            zipcode: addressEntity.zipcode,
-            complement: addressEntity.complement,
-            neighborhood: addressEntity.neighborhood,
-            type: addressEntity.type,
-            isMain: addressEntity.isMain,
-            country: addressEntity.country,
-            phoneNumber: addressEntity.phoneNumber,
-        };
-
-        customerEntity.addresses.push(customerAddress);
-
-        await this.customerRepository.update({
-            id: customerId,
-            data: customerEntity,
-        });
-
-        const address = { ...addressEntity, id };
+        const address: Address = { ...addressEntity, id };
 
         return right(address);
     }

@@ -5,7 +5,6 @@ import {
     makeFakeCustomerEntity,
 } from '@test/core/entities';
 import { CustomerNotFoundError } from '@core/errors';
-import { CustomerAddress } from '@core/interfaces';
 import { AddressStub } from '@test/application';
 
 describe('CreateAddress', () => {
@@ -49,30 +48,6 @@ describe('CreateAddress', () => {
         expect(response.value).toEqual(
             new CustomerNotFoundError('invalidCustomerId'),
         );
-    });
-
-    it('should save address on customer', async () => {
-        const { usecase, customerRepository } = createStub;
-        const fakeCustomerEntity = makeFakeCustomerEntity();
-
-        const { id: customerId } =
-            await customerRepository.create(fakeCustomerEntity);
-
-        const fakeAddressDTO = makeFakeAddressDTO();
-
-        const request: CreateAddressInterface.Request = {
-            addressDTO: fakeAddressDTO,
-            customerId: customerId,
-        };
-        const response = await usecase.execute(request);
-        const customer = await customerRepository.getById(customerId);
-        const customerAddres: CustomerAddress = {
-            ...fakeAddressDTO,
-            id: 'addressId',
-        };
-
-        expect(response.isRight()).toBeTruthy();
-        expect(customer.addresses[0]).toEqual(customerAddres);
     });
 
     it('should return an address on success', async () => {

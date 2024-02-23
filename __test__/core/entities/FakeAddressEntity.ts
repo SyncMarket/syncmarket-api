@@ -3,6 +3,7 @@ import { AddressEntity } from '@core/entities';
 
 export const makeFakeAddressDTO = (): AddressDTO => {
     return {
+        customerId: 'customerId',
         street: 'street',
         number: 'number',
         neighborhood: 'neighborhood',
@@ -19,6 +20,5 @@ export const makeFakeAddressDTO = (): AddressDTO => {
 
 export const makeFakeAddressEntity = (): AddressEntity => {
     const addressDTO = makeFakeAddressDTO();
-
     return new AddressEntity(addressDTO);
 };

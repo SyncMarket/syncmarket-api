@@ -2,8 +2,6 @@ import { CustomerAddress } from '@core/interfaces';
 import { ObjectId } from 'mongodb';
 
 export type CustomerModelMongoDb = {
-    addresses: CustomerAddressModelMongoDb[];
-    cartId: ObjectId;
     name: string;
     email: string;
     document: string;

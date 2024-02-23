@@ -1,10 +1,8 @@
+import { UpdateCustomerInterface } from '@application/interfaces';
 import {
-    GetCustomerByDocumentRepository,
-    GetCustomerByEmailRepository,
-    GetCustomerByIdRepository,
-    UpdateCustomerInterface,
-    UpdateCustomerRepository,
-} from '@application/interfaces';
+    AddressRepository,
+    CustomerRepository,
+} from '@application/repositories';
 import { left, right } from '@core/either';
 import { CustomerEntity } from '@core/entities';
 import {
@@ -12,56 +10,63 @@ import {
     DocumentAlreadyExistsError,
     EmailAlreadyExistsError,
 } from '@core/errors';
+import { Customer } from '@core/interfaces';
 
 export class UpdateCustomer implements UpdateCustomerInterface {
     constructor(
-        private readonly updateCustomerRepository: UpdateCustomerRepository,
-        private readonly getCustomerByIdRepository: GetCustomerByIdRepository,
-        private readonly getCustomerByEmailRepository: GetCustomerByEmailRepository,
-        private readonly getCustomerByDocumentRepository: GetCustomerByDocumentRepository,
+        private readonly customerRepository: CustomerRepository,
+        private readonly addressRepository: AddressRepository,
     ) {}
 
     async execute(
         request: UpdateCustomerInterface.Request,
     ): Promise<UpdateCustomerInterface.Response> {
         const { id, data } = request;
-
-        const customerEntity = await this.getCustomerByIdRepository.getById(id);
-
+        const customerEntity = await this.customerRepository.getById(id);
         if (!customerEntity) {
             return left(new CustomerNotFoundError(id));
         }
-
         if (data.document) {
             const documentAlreadyExists =
-                await this.getCustomerByDocumentRepository.getByDocument(
-                    data.document,
-                );
+                await this.customerRepository.getByDocument(data.document);
 
             if (documentAlreadyExists) {
                 return left(new DocumentAlreadyExistsError(data.document));
             }
         }
-
         if (data.email) {
-            const emailAlreadyExists =
-                await this.getCustomerByEmailRepository.getByEmail(data.email);
+            const emailAlreadyExists = await this.customerRepository.getByEmail(
+                data.email,
+            );
 
             if (emailAlreadyExists) {
                 return left(new EmailAlreadyExistsError(data.email));
             }
         }
-
-        const updateCustomerEntity: CustomerEntity = {
+        const updatedCustomerEntity: CustomerEntity = {
             ...customerEntity,
             ...request.data,
         };
-
-        await this.updateCustomerRepository.update({
-            data: updateCustomerEntity,
+        const addresses = await this.addressRepository.getByCustomer(id);
+        await this.customerRepository.update({
+            data: updatedCustomerEntity,
             id,
         });
-
-        return right(updateCustomerEntity);
+        const customer: Customer = {
+            id: id,
+            addresses: addresses,
+            birthDate: updatedCustomerEntity.birthDate,
+            cartId: null,
+            document: updatedCustomerEntity.document,
+            email: updatedCustomerEntity.email,
+            name: updatedCustomerEntity.name,
+            phoneNumber: updatedCustomerEntity.phoneNumber,
+            isActive: updatedCustomerEntity.isActive,
+            isDeleted: updatedCustomerEntity.isDeleted,
+            createdAt: updatedCustomerEntity.createdAt,
+            updatedAt: updatedCustomerEntity.updatedAt,
+            deletedAt: updatedCustomerEntity.deletedAt,
+        };
+        return right(customer);
     }
 }

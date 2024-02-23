@@ -1,6 +1,7 @@
 import {
     CreateAddressRepository,
     GetAddressByIdRepository,
+    GetAddressesByCustomerRepository,
     GetAddressesRepository,
     UpdateAddressRepository,
 } from '@application/interfaces';
@@ -10,7 +11,8 @@ export abstract class AddressRepository
         CreateAddressRepository,
         GetAddressByIdRepository,
         GetAddressesRepository,
-        UpdateAddressRepository
+        UpdateAddressRepository,
+        GetAddressesByCustomerRepository
 {
     abstract create(
         data: CreateAddressRepository.Request,
@@ -27,4 +29,8 @@ export abstract class AddressRepository
     abstract update(
         request: UpdateAddressRepository.Request,
     ): Promise<UpdateAddressRepository.Response>;
+
+    abstract getByCustomer(
+        customerId: GetAddressesByCustomerRepository.Request,
+    ): Promise<GetAddressesByCustomerRepository.Response>;
 }

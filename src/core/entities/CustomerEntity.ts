@@ -1,9 +1,7 @@
-import { CustomerAddress, CustomerDTO } from '@core/interfaces';
+import { CustomerDTO } from '@core/interfaces';
 
 export class CustomerEntity {
     public readonly id: string;
-    public addresses: CustomerAddress[];
-    public cartId: string | null;
     public name: string;
     public email: string;
     public document: string;
@@ -16,8 +14,6 @@ export class CustomerEntity {
     public deletedAt: Date | null;
 
     constructor(props: CustomerDTO) {
-        this.addresses = [];
-        this.cartId = props.cartId;
         this.name = props.name;
         this.email = props.email;
         this.document = props.document;

@@ -1,57 +1,57 @@
 import {
     CreateCustomerInterface,
-    CreateCustomerRepository,
-    GetCustomerByDocumentRepository,
-    GetCustomerByEmailRepository,
-    SignUpInterface,
+    DeleteCustomerInterface,
+    GetCustomerByIdInterface,
+    UpdateCustomerInterface,
 } from '@application/interfaces';
-import { left, right } from '@core/either';
-import { CustomerEntity } from '@core/entities';
 import {
-    DocumentAlreadyExistsError,
-    EmailAlreadyExistsError,
-} from '@core/errors';
-import { CustomerDTO } from '@core/interfaces';
+    CreateCustomer,
+    DeleteCustomer,
+    GetCustomerById,
+    UpdateCustomer,
+} from '@application/usecases';
+import {
+    InMemoryAddressRepository,
+    InMemoryCustomerRepository,
+} from '@test/application/repositories';
+import { AuthStub } from './AuthStub';
 
-export class CreateCustomerStub implements CreateCustomerInterface {
-    constructor(
-        private readonly createCustomerRepository: CreateCustomerRepository,
-        private readonly getCustomerByEmailRepository: GetCustomerByEmailRepository,
-        private readonly getCustomerByDocumentRepository: GetCustomerByDocumentRepository,
-        private readonly signUpProvider: SignUpInterface,
-    ) {}
+export type CustomerStubType<T> = {
+    usecase: T;
+    repository: InMemoryCustomerRepository;
+    addressRepository?: InMemoryAddressRepository;
+};
 
-    async execute(
-        request: CustomerDTO,
-    ): Promise<CreateCustomerInterface.Response> {
-        const emailAlreadyExists =
-            await this.getCustomerByEmailRepository.getByEmail(request.email);
+export class CustomerStub {
+    static create(): CustomerStubType<CreateCustomerInterface> {
+        const repository = new InMemoryCustomerRepository();
+        const addressRepository = new InMemoryAddressRepository();
+        const signUpMock = new AuthStub();
+        const usecase = new CreateCustomer(
+            repository,
+            addressRepository,
+            signUpMock,
+        );
+        return { usecase, repository, addressRepository };
+    }
 
-        if (emailAlreadyExists) {
-            return left(new EmailAlreadyExistsError(request.email));
-        }
+    static getById(): CustomerStubType<GetCustomerByIdInterface> {
+        const repository = new InMemoryCustomerRepository();
+        const addressRepository = new InMemoryAddressRepository();
+        const usecase = new GetCustomerById(repository, addressRepository);
+        return { usecase, repository, addressRepository };
+    }
 
-        const documentAlreadyExists =
-            await this.getCustomerByDocumentRepository.getByDocument(
-                request.document,
-            );
+    static update(): CustomerStubType<UpdateCustomerInterface> {
+        const repository = new InMemoryCustomerRepository();
+        const addressRepository = new InMemoryAddressRepository();
+        const usecase = new UpdateCustomer(repository, addressRepository);
+        return { usecase, repository, addressRepository };
+    }
 
-        if (documentAlreadyExists) {
-            return left(new DocumentAlreadyExistsError(request.document));
-        }
-
-        const customerEntity = new CustomerEntity(request);
-
-        const { id } =
-            await this.createCustomerRepository.create(customerEntity);
-
-        await this.signUpProvider.signUp({
-            email: request.email,
-            password: request.password,
-        });
-
-        const customer = { ...customerEntity, id };
-
-        return right(customer);
+    static delete(): CustomerStubType<DeleteCustomerInterface> {
+        const repository = new InMemoryCustomerRepository();
+        const usecase = new DeleteCustomer(repository);
+        return { usecase, repository };
     }
 }

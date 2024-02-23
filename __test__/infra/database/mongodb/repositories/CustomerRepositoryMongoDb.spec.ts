@@ -44,15 +44,11 @@ describe('CustomerRepositoryMongoDb', () => {
     describe('getCustomerByDocument', () => {
         it('should return a customer on success', async () => {
             const customerRepository = new CustomerRepositoryMongoDb();
-
             const customerEntity = makeFakeCustomerMongo();
-
             const { id } = await customerRepository.create(customerEntity);
-
             const customer = await customerRepository.getByDocument(
                 customerEntity.document,
             );
-
             expect(customer).toEqual({ ...customerEntity, id });
         });
     });
@@ -116,15 +112,10 @@ describe('CustomerRepositoryMongoDb', () => {
     describe('deleteCustomer', () => {
         it('should delete a customer and return success', async () => {
             const customerRepository = new CustomerRepositoryMongoDb();
-
             const customerEntity = makeFakeCustomerMongo();
-
             const { id } = await customerRepository.create(customerEntity);
-
             await customerRepository.delete(id);
-
             const customerDeleted = await customerRepository.getById(id);
-
             expect(customerDeleted.isDeleted).toBeTruthy();
         });
     });

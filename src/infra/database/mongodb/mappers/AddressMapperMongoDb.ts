@@ -1,5 +1,9 @@
 import { AddressEntity } from '@core/entities';
-import { AddressModelMongoDb, objectIdToString } from '@infra/database/mongodb';
+import {
+    AddressModelMongoDb,
+    objectIdToString,
+    stringToObjectId,
+} from '@infra/database/mongodb';
 import { WithId } from 'mongodb';
 
 export class AddressMapperMongoDb {
@@ -7,6 +11,7 @@ export class AddressMapperMongoDb {
         entity: AddressEntity | Omit<AddressEntity, 'id'>,
     ): AddressModelMongoDb {
         return {
+            customerId: stringToObjectId(entity.customerId),
             city: entity.city,
             state: entity.state,
             country: entity.country,
@@ -26,6 +31,7 @@ export class AddressMapperMongoDb {
     static toEntity(model: WithId<AddressModelMongoDb>): AddressEntity {
         return {
             id: objectIdToString(model._id),
+            customerId: objectIdToString(model.customerId),
             city: model.city,
             state: model.state,
             country: model.country,
